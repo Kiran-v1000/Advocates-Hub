@@ -1,0 +1,351 @@
+/* ============================================================
+   Partners.css — Law4u / AdvocatesHub Partners Page Styles
+   ============================================================ */
+
+.pt-page {
+  background-color: #f8fafc;
+  min-height: 100vh;
+  padding-bottom: 5rem;
+  color: #1e293b;
+  font-family: inherit;
+}
+
+/* ── Hero Section ────────────────────────────────────────── */
+.pt-hero {
+  background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+  color: #ffffff;
+  text-align: center;
+  padding: 5rem 1.5rem 4rem;
+  margin-bottom: 3rem;
+}
+
+.pt-hero-badge {
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  font-size: 0.875rem;
+  font-weight: 600;
+  padding: 0.35rem 1rem;
+  border-radius: 50px;
+  margin-bottom: 1.25rem;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.pt-hero-title {
+  font-size: 2.75rem;
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+  letter-spacing: -0.02em;
+}
+
+.pt-hero-sub {
+  font-size: 1.125rem;
+  color: #ffffff;
+  max-width: 650px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* ── Container ───────────────────────────────────────────── */
+.pt-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.pt-section-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 1.75rem;
+  text-align: center;
+  letter-spacing: -0.01em;
+}
+
+/* ── Partner Types Grid ──────────────────────────────────── */
+.pt-types-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 4rem;
+}
+
+.pt-type-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 2rem 1.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px -2px rgba(0, 0, 0, 0.02);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.pt-type-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
+  border-color: #cbd5e1;
+}
+
+.pt-type-icon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.pt-type-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 0.75rem;
+}
+
+.pt-type-desc {
+  font-size: 0.95rem;
+  color: #64748b;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ── Current Partners Section ────────────────────────────── */
+.pt-current-section {
+  margin-bottom: 4rem;
+  text-align: center;
+}
+
+.pt-partners-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.25rem;
+  margin-top: 1.5rem;
+}
+
+.pt-partner-badge {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  padding: 1rem 1.25rem;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+}
+
+.pt-partner-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 8px;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+}
+
+.pt-partner-name {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #334155;
+  text-align: left;
+}
+
+/* ── Split Layout (Benefits & Form) ──────────────────────── */
+.pt-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .pt-split {
+    grid-template-columns: 1fr;
+  }
+}
+
+.pt-benefits-card,
+.pt-form-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 2.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+}
+
+.pt-benefits-card .pt-section-title {
+  text-align: left;
+  margin-bottom: 1.5rem;
+}
+
+.pt-benefits-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 2rem 0;
+}
+
+.pt-benefits-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  font-size: 1.05rem;
+  color: #334155;
+  margin-bottom: 1.25rem;
+  line-height: 1.5;
+}
+
+.pt-check {
+  background: #dcfce7;
+  color: #15803d;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: bold;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.pt-benefits-note {
+  font-size: 0.95rem;
+  color: #64748b;
+  border-top: 1px solid #f1f5f9;
+  padding-top: 1.5rem;
+  margin: 0;
+}
+
+.pt-inline-link {
+  color: #2563eb;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.pt-inline-link:hover {
+  text-decoration: underline;
+}
+
+/* ── Form Styles ─────────────────────────────────────────── */
+.pt-form-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 1.5rem;
+}
+
+.pt-field {
+  margin-bottom: 1.25rem;
+}
+
+.pt-field label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #475569;
+  margin-bottom: 0.5rem;
+}
+
+.pt-field input,
+.pt-field select,
+.pt-field textarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  color: #1e293b;
+  background-color: #fff;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  box-sizing: border-box;
+}
+
+.pt-field input:focus,
+.pt-field select:focus,
+.pt-field textarea:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.pt-field input:disabled,
+.pt-field select:disabled,
+.pt-field textarea:disabled {
+  background-color: #f8fafc;
+  cursor: not-allowed;
+}
+
+.pt-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+@media (max-width: 600px) {
+  .pt-grid-2 {
+    grid-template-columns: 1fr;
+  }
+}
+
+.pt-err {
+  color: #dc2626;
+  font-size: 0.8rem;
+  margin-top: 0.35rem;
+  margin-bottom: 0;
+  font-weight: 500;
+}
+
+/* ── Buttons ─────────────────────────────────────────────── */
+.pt-btn-primary {
+  background-color: #2563eb;
+  color: #ffffff;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+  text-align: center;
+  display: inline-block;
+  text-decoration: none;
+}
+
+.pt-btn-primary:hover {
+  background-color: #1d4ed8;
+}
+
+.pt-btn-primary:disabled {
+  background-color: #93c5fd;
+  cursor: not-allowed;
+}
+
+.pt-btn-lg {
+  width: 100%;
+  padding: 0.875rem;
+  margin-top: 0.5rem;
+}
+
+/* ── Success State ───────────────────────────────────────── */
+.pt-sent {
+  text-align: center;
+  padding: 3rem 1rem;
+}
+
+.pt-sent-icon {
+  font-size: 3.5rem;
+  margin-bottom: 1rem;
+}
+
+.pt-sent h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 0.5rem;
+}
+
+.pt-sent p {
+  color: #64748b;
+  margin-bottom: 1.5rem;
+}

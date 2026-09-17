@@ -1,0 +1,372 @@
+/* ============================================================
+   Login.css — Law4u Advocate Login Stylesheet (Responsive)
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', sans-serif;
+}
+
+/* ── Page Layout ─────────────────────────────────────────── */
+.lg-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #f0f4f8 0%, #d9e2ec 100%);
+  padding: 20px;
+}
+
+/* ── Login Card ─────────────────────────────────────────── */
+.lg-card {
+  width: 100%;
+  max-width: 440px;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.08);
+  padding: 40px 32px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  border: 1px solid #e2e8f0;
+}
+
+/* ── Header ─────────────────────────────────────────────── */
+.lg-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.lg-logo {
+  font-size: 28px;
+  text-decoration: none;
+  display: inline-block;
+  margin-bottom: 16px;
+  letter-spacing: -0.5px;
+}
+
+.lg-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 8px;
+}
+
+.lg-subtitle {
+  font-size: 14px;
+  color: #64748b;
+}
+
+/* ── Badge ──────────────────────────────────────────────── */
+.lg-badge {
+  background: #eff6ff;
+  color: #1d4ed8;
+  border: 1px solid #bfdbfe;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 20px;
+  text-align: center;
+  margin-bottom: 24px;
+  letter-spacing: 0.3px;
+}
+
+.lg-home-btn {
+  display: block;
+  width: fit-content;
+  margin: -12px auto 20px;
+  padding: 8px 18px;
+  border: 1px solid #bfdbfe;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #2563eb;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.lg-home-btn:hover {
+  background: #eff6ff;
+  border-color: #2563eb;
+}
+
+/* ── Form Elements ──────────────────────────────────────── */
+.lg-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.lg-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.lg-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #334155;
+}
+
+.lg-req {
+  color: #dc2626;
+}
+
+.lg-input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.lg-input-wrap:focus-within {
+  background: #ffffff;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.lg-input-wrap.error {
+  border-color: #dc2626;
+  background: #fef2f2;
+}
+
+.lg-input-icon {
+  padding-left: 12px;
+  font-size: 16px;
+  user-select: none;
+}
+
+.lg-input {
+  width: 100%;
+  padding: 12px 14px;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 14px;
+  color: #0f172a;
+}
+
+.lg-input::placeholder {
+  color: #94a3b8;
+}
+
+.lg-valid {
+  padding-right: 12px;
+  color: #16a34a;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.lg-eye {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding-right: 12px;
+  font-size: 16px;
+  outline: none;
+}
+
+/* ── Hints & Errors ─────────────────────────────────────── */
+.lg-hint {
+  font-size: 12px;
+  color: #64748b;
+}
+
+.lg-field-err {
+  font-size: 12px;
+  color: #dc2626;
+  font-weight: 500;
+}
+
+/* ── Row & Links ────────────────────────────────────────── */
+.lg-row-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
+  margin-top: -2px;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.lg-remember {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #475569;
+  cursor: pointer;
+  user-select: none;
+}
+
+.lg-remember input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: #2563eb;
+  cursor: pointer;
+}
+
+.lg-forgot {
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.lg-forgot:hover {
+  text-decoration: underline;
+}
+
+/* ── Primary Button ─────────────────────────────────────── */
+.lg-btn-primary {
+  background: #2563eb;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.1s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);
+}
+
+.lg-btn-lg {
+  padding: 13px 16px;
+  margin-top: 6px;
+}
+
+.lg-btn-primary:hover:not(:disabled) {
+  background: #1d4ed8;
+}
+
+.lg-btn-primary:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.lg-btn-primary:disabled {
+  background: #94a3b8;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* ── Spinner ────────────────────────────────────────────── */
+.lg-spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid #ffffff;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: lg-spin 0.6s linear infinite;
+  display: inline-block;
+}
+
+@keyframes lg-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── Footer Link ────────────────────────────────────────── */
+.lg-signup-link {
+  text-align: center;
+  font-size: 13px;
+  color: #64748b;
+  margin-top: 4px;
+}
+
+.lg-signup-link a {
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.lg-signup-link a:hover {
+  text-decoration: underline;
+}
+
+/* ── Toast Notification ─────────────────────────────────── */
+.lg-toast {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  animation: lg-slide-in 0.3s ease forwards;
+}
+
+@keyframes lg-slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ============================================================
+   Responsive Adjustments for Tablets and Mobile Devices
+   ============================================================ */
+
+/* Tablets & Small Laptops (768px and below) */
+@media (max-width: 768px) {
+  .lg-page {
+    padding: 16px;
+  }
+  
+  .lg-card {
+    padding: 32px 24px;
+    max-width: 400px;
+  }
+}
+
+/* Mobile Phones (480px and below) */
+@media (max-width: 480px) {
+  .lg-page {
+    padding: 12px;
+    background: #ffffff; /* Clean background on small mobile screens */
+  }
+
+  .lg-card {
+    padding: 24px 16px;
+    border: none;
+    box-shadow: none;
+    background: transparent;
+    max-width: 100%;
+  }
+
+  .lg-title {
+    font-size: 22px;
+  }
+
+  .lg-logo {
+    font-size: 26px;
+    margin-bottom: 12px;
+  }
+
+  .lg-input {
+    font-size: 16px; /* Prevents auto-zoom on iOS safari inputs */
+    padding: 10px 12px;
+  }
+
+  .lg-toast {
+    left: 12px;
+    right: 12px;
+    top: 12px;
+    text-align: center;
+  }
+}

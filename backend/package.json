@@ -1,0 +1,8 @@
+{
+  "name": "advocatehub-backend",
+  "private": true,
+  "scripts": {
+    "start": "node server.js",
+    "hash-password": "node hash-password.js"
+  }
+}

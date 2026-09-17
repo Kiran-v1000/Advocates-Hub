@@ -1,0 +1,212 @@
+.tta-page {
+  min-height: 100vh;
+  background: #f8fafc;
+  color: #1e293b;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+.tta-hero {
+  padding: 56px 24px 64px;
+  text-align: center;
+  color: #ffffff;
+  background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+}
+
+.tta-eyebrow {
+  margin: 0 0 10px;
+  color: #ffffff;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.8rem;
+}
+
+.tta-hero h1 {
+  margin: 0 0 12px;
+  color: #ffffff;
+  font-size: 2.5rem;
+}
+
+.tta-hero > p:last-child {
+  margin: 0 auto;
+  color: #ffffff;
+  max-width: 560px;
+}
+
+.tta-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 24px 64px;
+}
+
+.tta-section-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.tta-section-heading h2 {
+  margin: 0;
+  color: #0f172a;
+  font-size: 1.7rem;
+}
+
+.tta-section-heading span {
+  color: #64748b;
+  font-size: 0.9rem;
+}
+
+.tta-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+  gap: 20px;
+}
+
+.tta-card {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 24px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  box-shadow: 0 5px 16px rgba(15, 23, 42, 0.06);
+}
+
+.tta-card-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.tta-avatar {
+  display: grid;
+  place-items: center;
+  width: 58px;
+  height: 58px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: #2563eb;
+  color: #ffffff;
+  font-size: 1.1rem;
+  font-weight: 800;
+  overflow: hidden;
+}
+
+.tta-avatar img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.tta-card h2 {
+  margin: 0 0 4px;
+  color: #0f172a;
+  font-size: 1.15rem;
+}
+
+.tta-card-header p,
+.tta-card-header span {
+  display: block;
+  margin: 0;
+  color: #475569;
+  font-size: 0.88rem;
+}
+
+.tta-card-header span {
+  margin-top: 3px;
+  color: #64748b;
+  font-size: 0.8rem;
+}
+
+.tta-summary {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.tta-summary div {
+  padding: 10px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+}
+
+.tta-summary small,
+.tta-summary strong {
+  display: block;
+}
+
+.tta-summary small {
+  color: #64748b;
+  font-size: 0.72rem;
+}
+
+.tta-summary strong {
+  margin-top: 3px;
+  color: #1e293b;
+  font-size: 0.82rem;
+}
+
+.tta-bio {
+  margin: 0;
+  color: #475569;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.tta-contact {
+  display: grid;
+  gap: 7px;
+  padding-top: 14px;
+  border-top: 1px solid #e2e8f0;
+}
+
+.tta-contact a {
+  overflow-wrap: anywhere;
+  color: #1d4ed8;
+  font-size: 0.86rem;
+  text-decoration: none;
+}
+
+.tta-contact a:hover {
+  text-decoration: underline;
+}
+
+.tta-profile-link {
+  align-self: flex-start;
+  padding: 9px 14px;
+  border-radius: 6px;
+  background: #2563eb;
+  color: #ffffff;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.tta-profile-link:hover {
+  background: #1d4ed8;
+}
+
+@media (max-width: 600px) {
+  .tta-hero h1 {
+    font-size: 2rem;
+  }
+
+  .tta-section-heading {
+    display: block;
+  }
+
+  .tta-section-heading span {
+    display: block;
+    margin-top: 6px;
+  }
+
+  .tta-content {
+    padding-right: 16px;
+    padding-left: 16px;
+  }
+}

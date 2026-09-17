@@ -1,0 +1,574 @@
+/* ============================================================
+   Profile.css — Complete Styling Suite for Profile Component
+   ============================================================ */
+
+/* Root Design Tokens */
+:root {
+  --pf-primary: #2563eb;
+  --pf-primary-hover: #1d4ed8;
+  --pf-primary-light: #eff6ff;
+  --pf-primary-border: #bfdbfe;
+  
+  --pf-success: #16a34a;
+  --pf-success-light: #dcfce7;
+  
+  --pf-danger: #dc2626;
+  --pf-danger-light: #fee2e2;
+
+  --pf-slate-50: #f8fafc;
+  --pf-slate-100: #f1f5f9;
+  --pf-slate-200: #e2e8f0;
+  --pf-slate-300: #cbd5e1;
+  --pf-slate-400: #94a3b8;
+  --pf-slate-500: #64748b;
+  --pf-slate-600: #475569;
+  --pf-slate-700: #334155;
+  --pf-slate-800: #1e293b;
+  --pf-slate-900: #0f172a;
+
+  --pf-white: #ffffff;
+  --pf-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --pf-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --pf-shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --pf-radius-sm: 6px;
+  --pf-radius-md: 10px;
+  --pf-radius-lg: 16px;
+  --pf-radius-full: 9999px;
+}
+
+/* Global Reset & Page Wrapper */
+.lw-profile-page {
+  min-height: 100vh;
+  background-color: var(--pf-slate-50);
+  color: var(--pf-slate-800);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  padding: 40px 16px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.lw-profile-page *,
+.lw-profile-page *::before,
+.lw-profile-page *::after {
+  box-sizing: inherit;
+}
+
+/* Container Layout */
+.lw-profile-container {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Main Profile Card */
+.lw-profile-card {
+  background-color: var(--pf-white);
+  border-radius: var(--pf-radius-lg);
+  box-shadow: var(--pf-shadow-md);
+  border: 1px solid var(--pf-slate-200);
+  overflow: hidden;
+  animation: pfFadeIn 0.3s ease-out forwards;
+}
+
+
+/* Header Banner Section */
+
+.lw-profile-header {
+  background: linear-gradient(
+    135deg,
+    #172554 0%,
+    #1e3a5f 55%,
+    #274c77 100%
+  );
+
+  color: #ffffff;
+  padding: 32px;
+  position: relative;
+
+  overflow: hidden;
+}
+
+
+/* Decorative circle on the right */
+
+.lw-profile-header::after {
+  content: "";
+
+  position: absolute;
+
+  width: 180px;
+  height: 180px;
+
+  right: -70px;
+  top: -70px;
+
+  border-radius: 50%;
+
+  background: rgba(255, 255, 255, 0.06);
+
+  border: 1px solid rgba(255, 255, 255, 0.10);
+
+  box-shadow:
+    0 0 0 25px rgba(255, 255, 255, 0.025),
+    0 0 0 50px rgba(255, 255, 255, 0.015);
+
+  pointer-events: none;
+}
+
+
+/* Small inner circle */
+
+.lw-profile-header::before {
+  content: "";
+
+  position: absolute;
+
+  width: 70px;
+  height: 70px;
+
+  right: 35px;
+  top: 35px;
+
+  border-radius: 50%;
+
+  background: rgba(255, 255, 255, 0.035);
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  pointer-events: none;
+}
+
+
+/* Header Content */
+
+.lw-profile-header-content {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+
+  position: relative;
+  z-index: 2;
+}
+
+/* Profile Avatar Component */
+.lw-profile-avatar {
+  width: 88px;
+  height: 88px;
+  border-radius: var(--pf-radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--pf-white);
+  flex-shrink: 0;
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.15);
+  overflow: hidden;
+}
+
+.lw-profile-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Typography Inside Header */
+.lw-profile-name {
+  font-size: 28px;
+  font-weight: 800;
+  margin: 0 0 6px 0;
+  letter-spacing: -0.5px;
+  color: var(--pf-white);
+}
+
+.lw-profile-spec {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--pf-primary-border);
+  margin-bottom: 6px;
+}
+
+.lw-profile-meta {
+  font-size: 14px;
+  color: var(--pf-slate-400);
+  font-weight: 400;
+}
+
+/* Body Section Layout */
+.lw-profile-body {
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+/* Highlights Grid */
+.lw-profile-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.lw-stat-box {
+  background-color: var(--pf-slate-50);
+  border: 1px solid var(--pf-slate-200);
+  border-radius: var(--pf-radius-md);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.lw-stat-box:hover {
+  background-color: var(--pf-slate-100);
+  transform: translateY(-2px);
+}
+
+.lw-stat-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--pf-slate-500);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.lw-stat-value {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--pf-slate-900);
+}
+
+/* Profile Subsections */
+.lw-profile-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.lw-profile-subtitle {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--pf-slate-900);
+  margin: 0;
+  border-bottom: 2px solid var(--pf-slate-100);
+  padding-bottom: 8px;
+}
+
+.lw-profile-bio {
+  font-size: 15px;
+  color: var(--pf-slate-600);
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* Languages Badges */
+.lw-lang-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.lw-lang-badge {
+  background-color: var(--pf-primary-light);
+  color: var(--pf-primary-hover);
+  border: 1px solid var(--pf-primary-border);
+  padding: 6px 14px;
+  border-radius: var(--pf-radius-full);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* Action Buttons Container */
+.lw-profile-actions {
+  display: flex;
+  gap: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--pf-slate-100);
+}
+
+/* Primary and Back Buttons */
+.lw-btn-book {
+  background-color: var(--pf-primary);
+  color: var(--pf-white);
+  border: none;
+  padding: 12px 24px;
+  border-radius: var(--pf-radius-md);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);
+}
+
+.lw-btn-book:hover:not(:disabled) {
+  background-color: var(--pf-primary-hover);
+  box-shadow: 0 4px 8px rgba(37, 99, 235, 0.3);
+}
+
+.lw-btn-book:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.lw-btn-back {
+  background-color: var(--pf-slate-100);
+  color: var(--pf-slate-700);
+  border: 1px solid var(--pf-slate-300);
+  padding: 12px 24px;
+  border-radius: var(--pf-radius-md);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.lw-btn-back:hover:not(:disabled) {
+  background-color: var(--pf-slate-200);
+  color: var(--pf-slate-900);
+}
+
+/* ============================================================
+   Modal System (Consultation & Success)
+   ============================================================ */
+.lw-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 16px;
+  animation: pfFadeIn 0.2s ease forwards;
+}
+
+.lw-modal {
+  background-color: var(--pf-white);
+  width: 100%;
+  max-width: 480px;
+  border-radius: var(--pf-radius-lg);
+  box-shadow: var(--pf-shadow-lg);
+  border: 1px solid var(--pf-slate-200);
+  padding: 28px;
+  position: relative;
+  animation: pfScaleUp 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.lw-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.lw-modal-header h3 {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--pf-slate-900);
+  margin: 0;
+}
+
+.lw-modal-close {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: var(--pf-slate-400);
+  padding: 4px;
+  border-radius: var(--pf-radius-sm);
+  transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+.lw-modal-close:hover {
+  color: var(--pf-slate-900);
+  background-color: var(--pf-slate-100);
+}
+
+.lw-modal-sub {
+  font-size: 14px;
+  color: var(--pf-slate-500);
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+/* Modal Form Fields */
+.lw-modal fieldset {
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+.lw-modal-field {
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.lw-modal-field label {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--pf-slate-700);
+}
+
+.lw-modal-field input,
+.lw-modal-field textarea {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid var(--pf-slate-300);
+  border-radius: var(--pf-radius-sm);
+  font-size: 14px;
+  color: var(--pf-slate-900);
+  background-color: var(--pf-white);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  font-family: inherit;
+}
+
+.lw-modal-field input:focus,
+.lw-modal-field textarea:focus {
+  outline: none;
+  border-color: var(--pf-primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.lw-modal-field input:disabled,
+.lw-modal-field textarea:disabled {
+  background-color: var(--pf-slate-50);
+  cursor: not-allowed;
+}
+
+.lw-modal-err {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--pf-danger);
+  margin: 2px 0 0 0;
+}
+
+.lw-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.lw-modal-actions button {
+  padding: 10px 20px;
+  font-size: 14px;
+}
+
+/* Success Modal Styles */
+.lw-modal-success {
+  text-align: center;
+  padding: 36px 28px;
+}
+
+.lw-modal-success-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.lw-modal-success h3 {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--pf-slate-900);
+  margin-bottom: 8px;
+}
+
+.lw-modal-success p {
+  font-size: 14px;
+  color: var(--pf-slate-600);
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+
+.lw-modal-success .lw-btn-book {
+  width: 100%;
+}
+
+/* ============================================================
+   Animations & Responsive Breakpoints
+   ============================================================ */
+@keyframes pfFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes pfScaleUp {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .lw-profile-page {
+    padding: 16px 12px;
+  }
+
+  .lw-profile-header {
+    padding: 24px 20px;
+  }
+
+  .lw-profile-header-content {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 16px;
+  }
+
+  .lw-profile-body {
+    padding: 20px;
+    gap: 20px;
+  }
+
+  .lw-profile-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .lw-profile-actions {
+    flex-direction: column-reverse;
+  }
+
+  .lw-profile-actions button {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .lw-profile-stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .lw-profile-name {
+    font-size: 24px;
+  }
+}
+
+/* Print Overrides */
+@media print {
+  .lw-profile-page {
+    background-color: var(--pf-white);
+    padding: 0;
+  }
+
+  .lw-profile-card {
+    box-shadow: none;
+    border: none;
+  }
+
+  .lw-profile-actions,
+  .lw-modal-overlay {
+    display: none !important;
+  }
+}

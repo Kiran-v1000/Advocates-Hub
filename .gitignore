@@ -1,0 +1,6 @@
+node_modules/
+backend/.env
+backend/data/clients.json
+chatbot/san/
+chatbot/__pycache__/
+frontend/myapp/build/

@@ -1,0 +1,937 @@
+/* ========================================================================== */
+/* LAW4U PRIVACY POLICY - MASTER STYLESHEET                                   */
+/* Architecture: Modern Modular CSS / BEM-Inspired Namespace (.pp-*)          */
+/* Target Scale: Production-Grade Enterprise UI                               */
+/* ========================================================================== */
+
+/* -------------------------------------------------------------------------- */
+/* 1. CSS Reset, Root Variables & Global Design Tokens                        */
+/* -------------------------------------------------------------------------- */
+:root {
+  --pp-font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --pp-font-mono: 'Fira Code', Consolas, Monaco, 'Andale Mono', monospace;
+
+  /* Color Palette */
+  --pp-color-primary: #2563eb;
+  --pp-color-primary-dark: #1d4ed8;
+  --pp-color-primary-light: #dbeafe;
+  --pp-color-primary-bg: #eff6ff;
+  --pp-color-primary-border: #bfdbfe;
+  
+  --pp-color-slate-900: #0f172a;
+  --pp-color-slate-800: #1e293b;
+  --pp-color-slate-700: #334155;
+  --pp-color-slate-600: #475569;
+  --pp-color-slate-500: #64748b;
+  --pp-color-slate-400: #94a3b8;
+  --pp-color-slate-300: #cbd5e1;
+  --pp-color-slate-200: #e2e8f0;
+  --pp-color-slate-100: #f1f5f9;
+  --pp-color-slate-50: #f8fafc;
+  
+  --pp-color-white: #ffffff;
+  --pp-color-black: #000000;
+  
+  --pp-color-success-bg: #f0fdf4;
+  --pp-color-success-border: #bbf7d0;
+  --pp-color-success-text: #166534;
+  --pp-color-success-title: #14532d;
+
+  --pp-color-warning-bg: #fefce8;
+  --pp-color-warning-border: #fef08a;
+  --pp-color-warning-text: #92400e;
+  --pp-color-warning-title: #78350f;
+
+  --pp-color-danger: #dc2626;
+  --pp-color-success: #16a34a;
+
+  /* Shadows */
+  --pp-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --pp-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.07);
+  --pp-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.08);
+  --pp-shadow-sticky: 0 2px 8px rgba(0, 0, 0, 0.08);
+
+  /* Transitions */
+  --pp-transition-fast: all 0.15s ease-in-out;
+  --pp-transition-normal: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  --pp-transition-slow: all 0.4s ease-in-out;
+
+  /* Layout Constants */
+  --pp-max-container-width: 1200px;
+  --pp-sidebar-width: 260px;
+  --pp-header-height: 56px;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--pp-font-primary);
+  color: var(--pp-color-slate-800);
+  background-color: var(--pp-color-slate-50);
+  line-height: 1.6;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Custom Scrollbar for Advanced Styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--pp-color-slate-100);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--pp-color-slate-300);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--pp-color-slate-400);
+}
+
+/* -------------------------------------------------------------------------- */
+/* 2. Global Container & Layout Shell                                         */
+/* -------------------------------------------------------------------------- */
+.pp-container {
+  font-family: var(--pp-font-primary);
+  color: var(--pp-color-slate-800);
+  background: var(--pp-color-slate-50);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.pp-layout {
+  max-width: var(--pp-max-container-width);
+  margin: 0 auto;
+  padding: 32px 20px 80px;
+  display: flex;
+  gap: 32px;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.pp-main-content {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* -------------------------------------------------------------------------- */
+/* 3. Sticky Navigation & Header Elements                                     */
+/* -------------------------------------------------------------------------- */
+.pp-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--pp-color-white);
+  border-bottom: 1px solid var(--pp-color-slate-200);
+  padding: 0 24px;
+  height: var(--pp-header-height);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: var(--pp-transition-normal);
+  width: 100%;
+}
+
+.pp-topbar.scrolled {
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: var(--pp-shadow-sticky);
+  border-bottom-color: var(--pp-color-slate-300);
+}
+
+.pp-back-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--pp-color-primary);
+  font-size: 13.5px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: inherit;
+  padding: 6px 10px;
+  border-radius: 6px;
+  transition: var(--pp-transition-fast);
+}
+
+.pp-back-btn:hover {
+  background-color: var(--pp-color-primary-bg);
+  color: var(--pp-color-primary-dark);
+}
+
+.pp-back-btn:active {
+  transform: translateY(1px);
+}
+
+.pp-brand {
+  font-weight: 800;
+  font-size: 16px;
+  letter-spacing: -0.3px;
+  display: flex;
+  align-items: center;
+}
+
+.pp-brand-sub {
+  color: var(--pp-color-slate-500);
+  font-size: 13px;
+  font-weight: 400;
+  margin-left: 10px;
+  padding-left: 10px;
+  border-left: 1px solid var(--pp-color-slate-300);
+}
+
+.pp-toc-toggle {
+  background: var(--pp-color-primary-bg);
+  border: 1px solid var(--pp-color-primary-border);
+  border-radius: 7px;
+  padding: 6px 14px;
+  color: var(--pp-color-primary-dark);
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  display: none; /* Enabled via media query */
+  transition: var(--pp-transition-fast);
+  align-items: center;
+  gap: 6px;
+}
+
+.pp-toc-toggle:hover {
+  background: var(--pp-color-primary-light);
+  border-color: var(--pp-color-primary);
+}
+
+/* -------------------------------------------------------------------------- */
+/* 4. Hero Banner & Summary Showcase                                         */
+/* -------------------------------------------------------------------------- */
+.pp-hero {
+  background: linear-gradient(135deg, #1e3a5f 0%, #1d4ed8 50%, #2563eb 100%);
+  color: var(--pp-color-white);
+  padding: 64px 24px 52px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.pp-hero::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.pp-hero-icon {
+  font-size: 56px;
+  margin-bottom: 16px;
+  display: inline-block;
+  animation: pp-float 4s ease-in-out infinite;
+}
+
+@keyframes pp-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+.pp-hero-title {
+  font-size: 36px;
+  font-weight: 900;
+  margin: 0 0 10px;
+  letter-spacing: -0.7px;
+}
+
+.pp-hero-company {
+  font-size: 16px;
+  opacity: 0.9;
+  margin: 0 0 24px;
+  font-weight: 400;
+  letter-spacing: 0.2px;
+}
+
+.pp-hero-meta {
+  display: flex;
+  justify-content: center;
+  gap: 28px;
+  flex-wrap: wrap;
+  font-size: 13.5px;
+  opacity: 0.85;
+  background: rgba(0, 0, 0, 0.15);
+  padding: 10px 20px;
+  border-radius: 30px;
+  width: fit-content;
+  margin: 0 auto;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.pp-summary-bar {
+  background: var(--pp-color-white);
+  border-bottom: 1px solid var(--pp-color-slate-200);
+  padding: 16px 24px;
+  box-shadow: var(--pp-shadow-sm);
+}
+
+.pp-summary-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.pp-summary-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--pp-color-slate-700);
+  font-weight: 500;
+  padding: 6px 12px;
+  background: var(--pp-color-slate-50);
+  border: 1px solid var(--pp-color-slate-200);
+  border-radius: 20px;
+  transition: var(--pp-transition-fast);
+}
+
+.pp-summary-item:hover {
+  background: var(--pp-color-primary-bg);
+  border-color: var(--pp-color-primary-border);
+  color: var(--pp-color-primary-dark);
+  transform: translateY(-1px);
+}
+
+.pp-summary-icon {
+  font-size: 15px;
+}
+
+/* -------------------------------------------------------------------------- */
+/* 5. Sticky Sidebar & Table of Contents (TOC)                                */
+/* -------------------------------------------------------------------------- */
+.pp-sidebar {
+  width: var(--pp-sidebar-width);
+  flex-shrink: 0;
+  position: sticky;
+  top: calc(var(--pp-header-height) + 20px);
+  max-height: calc(100vh - 100px);
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.pp-sidebar-inner {
+  background: var(--pp-color-white);
+  border: 1px solid var(--pp-color-slate-200);
+  border-radius: 14px;
+  padding: 16px 12px;
+  box-shadow: var(--pp-shadow-sm);
+}
+
+.pp-sidebar-heading {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--pp-color-slate-400);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  padding: 0 12px 10px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid var(--pp-color-slate-100);
+}
+
+.pp-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  border: none;
+  background: transparent;
+  text-align: left;
+  width: 100%;
+  transition: var(--pp-transition-fast);
+  color: var(--pp-color-slate-600);
+  font-weight: 500;
+  font-family: inherit;
+}
+
+.pp-nav-item:hover {
+  background: var(--pp-color-slate-100);
+  color: var(--pp-color-slate-900);
+  transform: translateX(2px);
+}
+
+.pp-nav-item.active {
+  background: var(--pp-color-primary-bg);
+  color: var(--pp-color-primary-dark);
+  font-weight: 600;
+  box-shadow: inset 3px 0 0 var(--pp-color-primary);
+}
+
+/* -------------------------------------------------------------------------- */
+/* 6. Mobile Drawer Navigation Overlay                                        */
+/* -------------------------------------------------------------------------- */
+.pp-drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 200;
+  animation: pp-fadeIn 0.2s ease-out;
+}
+
+@keyframes pp-fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.pp-drawer-content {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 300px;
+  background: var(--pp-color-white);
+  padding: 24px 16px;
+  overflow-y: auto;
+  box-shadow: -10px 0 25px rgba(0, 0, 0, 0.15);
+  animation: pp-slideInRight 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+@keyframes pp-slideInRight {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+.pp-drawer-title {
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--pp-color-slate-900);
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--pp-color-slate-200);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* -------------------------------------------------------------------------- */
+/* 7. Content Cards, Sections & Typography Engine                             */
+/* -------------------------------------------------------------------------- */
+.pp-section {
+  scroll-margin-top: calc(var(--pp-header-height) + 24px);
+}
+
+.pp-card {
+  background: var(--pp-color-white);
+  border: 1px solid var(--pp-color-slate-200);
+  border-radius: 16px;
+  padding: 36px 40px;
+  box-shadow: var(--pp-shadow-sm);
+  transition: var(--pp-transition-normal);
+  position: relative;
+  overflow: hidden;
+}
+
+.pp-card:hover {
+  box-shadow: var(--pp-shadow-md);
+  border-color: var(--pp-color-slate-300);
+}
+
+.pp-section-title {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--pp-color-slate-900);
+  margin: 0 0 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  letter-spacing: -0.4px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--pp-color-slate-100);
+}
+
+.pp-section-title span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--pp-color-primary-bg);
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  font-size: 20px;
+}
+
+.pp-para {
+  font-size: 14.5px;
+  line-height: 1.85;
+  color: var(--pp-color-slate-700);
+  margin-bottom: 16px;
+  font-weight: 400;
+}
+
+.pp-para:last-child {
+  margin-bottom: 0;
+}
+
+.pp-sub-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--pp-color-slate-900);
+  margin: 22px 0 12px;
+  letter-spacing: -0.2px;
+}
+
+.pp-group-title {
+  font-size: 14.5px;
+  font-weight: 700;
+  color: var(--pp-color-primary-dark);
+  margin: 18px 0 10px;
+  background: var(--pp-color-primary-bg);
+  padding: 8px 14px;
+  border-radius: 8px;
+  border-left: 4px solid var(--pp-color-primary);
+  display: inline-block;
+  width: 100%;
+}
+
+/* -------------------------------------------------------------------------- */
+/* 8. Lists, Bullet Styles & Interactive Sub-Components                       */
+/* -------------------------------------------------------------------------- */
+.pp-list {
+  margin: 12px 0 16px 0;
+  padding-left: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.pp-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 14px;
+  line-height: 1.75;
+  color: var(--pp-color-slate-700);
+  background: var(--pp-color-slate-50);
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--pp-color-slate-200);
+  transition: var(--pp-transition-fast);
+}
+
+.pp-list li:hover {
+  background: var(--pp-color-white);
+  border-color: var(--pp-color-slate-300);
+  box-shadow: var(--pp-shadow-sm);
+}
+
+.pp-list li::before {
+  content: "•";
+  color: var(--pp-color-primary);
+  font-size: 18px;
+  line-height: 1;
+  margin-top: 1px;
+  flex-shrink: 0;
+}
+
+/* Sharing Information Cards */
+.pp-share-item {
+  display: flex;
+  gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--pp-color-slate-100);
+  transition: var(--pp-transition-fast);
+}
+
+.pp-share-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.pp-share-item:first-child {
+  padding-top: 0;
+}
+
+.pp-share-title {
+  font-size: 14.5px;
+  font-weight: 700;
+  color: var(--pp-color-slate-900);
+  margin-bottom: 6px;
+}
+
+.pp-share-desc {
+  font-size: 13.5px;
+  color: var(--pp-color-slate-600);
+  line-height: 1.7;
+}
+
+/* -------------------------------------------------------------------------- */
+/* 9. Specialized Cards (Cookies, Rights, Officers, Tables)                  */
+/* -------------------------------------------------------------------------- */
+/* Cookie Component Cards */
+.pp-cookie-card {
+  background: var(--pp-color-warning-bg);
+  border: 1px solid var(--pp-color-warning-border);
+  border-radius: 10px;
+  padding: 16px 20px;
+  margin-bottom: 12px;
+  transition: var(--pp-transition-fast);
+}
+
+.pp-cookie-card:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--pp-shadow-sm);
+}
+
+.pp-cookie-name {
+  font-size: 14.5px;
+  font-weight: 700;
+  color: var(--pp-color-warning-title);
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pp-cookie-desc {
+  font-size: 13.5px;
+  color: var(--pp-color-warning-text);
+  line-height: 1.65;
+}
+
+/* User Rights Cards */
+.pp-right-card {
+  background: var(--pp-color-success-bg);
+  border: 1px solid var(--pp-color-success-border);
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-bottom: 12px;
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  transition: var(--pp-transition-fast);
+}
+
+.pp-right-card:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--pp-shadow-sm);
+  border-color: #86efac;
+}
+
+.pp-right-icon {
+  font-size: 26px;
+  flex-shrink: 0;
+  background: var(--pp-color-white);
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--pp-shadow-sm);
+  border: 1px solid var(--pp-color-success-border);
+}
+
+.pp-right-title {
+  font-size: 14.5px;
+  font-weight: 700;
+  color: var(--pp-color-success-title);
+  margin-bottom: 6px;
+}
+
+.pp-right-desc {
+  font-size: 13.5px;
+  color: var(--pp-color-success-text);
+  line-height: 1.65;
+}
+
+/* Data Retention Tables */
+.pp-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 14px;
+  margin-top: 16px;
+  border: 1px solid var(--pp-color-slate-200);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.pp-table th {
+  background: var(--pp-color-slate-100);
+  padding: 12px 18px;
+  text-align: left;
+  font-weight: 700;
+  color: var(--pp-color-slate-700);
+  border-bottom: 2px solid var(--pp-color-slate-200);
+  letter-spacing: -0.1px;
+}
+
+.pp-table td {
+  padding: 12px 18px;
+  border-bottom: 1px solid var(--pp-color-slate-200);
+  color: var(--pp-color-slate-700);
+  background: var(--pp-color-white);
+}
+
+.pp-table tr:last-child td {
+  border-bottom: none;
+}
+
+.pp-table tr:hover td {
+  background: var(--pp-color-slate-50);
+}
+
+/* Grievance & Contact Detail Cards */
+.pp-officer-card {
+  background: var(--pp-color-primary-bg);
+  border: 1px solid var(--pp-color-primary-border);
+  border-radius: 14px;
+  padding: 24px;
+  margin-top: 20px;
+}
+
+.pp-contact-card {
+  background: var(--pp-color-slate-50);
+  border: 1px solid var(--pp-color-slate-200);
+  border-radius: 14px;
+  padding: 24px;
+  margin-top: 20px;
+}
+
+.pp-detail-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 11px 0;
+  border-bottom: 1px solid var(--pp-color-slate-200);
+  font-size: 14px;
+}
+
+.pp-detail-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.pp-detail-row:first-child {
+  padding-top: 0;
+}
+
+.pp-detail-label {
+  color: var(--pp-color-slate-500);
+  min-width: 120px;
+  flex-shrink: 0;
+  font-weight: 600;
+}
+
+.pp-detail-val {
+  color: var(--pp-color-slate-900);
+  font-weight: 500;
+  word-break: break-word;
+}
+
+/* Info Callout Boxes */
+.pp-info-box {
+  background: var(--pp-color-primary-bg);
+  border: 1px solid var(--pp-color-primary-border);
+  border-radius: 10px;
+  padding: 14px 18px;
+  font-size: 13.5px;
+  color: var(--pp-color-primary-dark);
+  margin-top: 18px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 500;
+}
+
+/* -------------------------------------------------------------------------- */
+/* 10. Footer Section & Legal Notice Box                                      */
+/* -------------------------------------------------------------------------- */
+.pp-footer-box {
+  background: var(--pp-color-white);
+  border: 1px solid var(--pp-color-slate-200);
+  border-radius: 16px;
+  padding: 28px 32px;
+  text-align: center;
+  font-size: 13.5px;
+  color: var(--pp-color-slate-500);
+  line-height: 1.8;
+  box-shadow: var(--pp-shadow-sm);
+  margin-top: 12px;
+}
+
+.pp-footer-box strong {
+  color: var(--pp-color-slate-700);
+}
+
+/* -------------------------------------------------------------------------- */
+/* 11. Responsive Media Queries & Mobile Adaptation Framework                 */
+/* -------------------------------------------------------------------------- */
+@media (max-width: 1024px) {
+  .pp-layout {
+    padding: 24px 16px 60px;
+    gap: 24px;
+  }
+  
+  .pp-sidebar {
+    width: 220px;
+  }
+
+  .pp-card {
+    padding: 28px 24px;
+  }
+}
+
+@media (max-width: 850px) {
+  .pp-layout {
+    flex-direction: column !important;
+  }
+
+  .pp-sidebar {
+    display: none !important;
+  }
+
+  .pp-toc-toggle {
+    display: inline-flex !important;
+  }
+
+  .pp-hero {
+    padding: 48px 16px 36px;
+  }
+
+  .pp-hero-title {
+    font-size: 28px;
+  }
+
+  .pp-card {
+    padding: 22px 18px;
+  }
+
+  .pp-section-title {
+    font-size: 19px;
+  }
+}
+
+@media (max-width: 480px) {
+  .pp-topbar {
+    padding: 0 16px;
+  }
+
+  .pp-brand {
+    font-size: 14.5px;
+  }
+
+  .pp-brand-sub {
+    display: none; /* Hide subtitle on very small screens */
+  }
+
+  .pp-hero-meta {
+    flex-direction: column;
+    gap: 6px;
+    padding: 10px 16px;
+    border-radius: 16px;
+  }
+
+  .pp-summary-inner {
+    justify-content: flex-start;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    padding-bottom: 4px;
+  }
+
+  .pp-summary-item {
+    flex-shrink: 0;
+  }
+
+  .pp-right-card {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .pp-detail-row {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .pp-detail-label {
+    min-width: auto;
+  }
+}
+
+/* -------------------------------------------------------------------------- */
+/* 12. Print Media Optimizations                                              */
+/* -------------------------------------------------------------------------- */
+@media print {
+  .pp-topbar,
+  .pp-sidebar,
+  .pp-toc-toggle,
+  .pp-summary-bar {
+    display: none !important;
+  }
+
+  body {
+    background: white;
+    color: black;
+  }
+
+  .pp-layout {
+    padding: 0;
+    max-width: 100%;
+  }
+
+  .pp-card {
+    border: none;
+    box-shadow: none;
+    padding: 12px 0;
+    page-break-inside: avoid;
+  }
+
+  .pp-hero {
+    background: none !important;
+    color: black !important;
+    padding: 20px 0;
+    text-align: left;
+    border-bottom: 2px solid #000;
+  }
+
+  .pp-hero-title {
+    font-size: 24px;
+  }
+
+  .pp-hero-meta {
+    background: none;
+    border: none;
+    padding: 0;
+    color: #444;
+  }
+}

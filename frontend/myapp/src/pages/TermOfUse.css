@@ -1,0 +1,783 @@
+/* ========================================================================== */
+/* LAW4U ADVOCATES HUB — DESIGN SYSTEM & BASE ARCHITECTURE                    */
+/* Module: Terms of Use & Legal Framework Stylesheet                          */
+/* Document Version: 4.2.0-Production                                         */
+/* Target Environment: React SPA / Web Application                            */
+/* Author: Law4u Legal Technologies Pvt. Ltd. Engineering & Design Team      */
+/* Compliance: Information Technology Act (2000), BCI Professional Rules      */
+/* ========================================================================== */
+
+/* -------------------------------------------------------------------------- */
+/* TABLE OF CONTENTS:                                                         */
+/* 1. Global CSS Reset & Box Sizing Configuration                           */
+/* 2. Root Custom Properties & Design Token Variables                         */
+/* 3. Typography Engine & Font-Face Setup                                     */
+/* 4. Global Root Layout & Body Defaults                                      */
+/* 5. Utility & Helper Classes                                                */
+/* 6. Layout Grid Systems & Flexbox Containers                                */
+/* 7. Sticky Navigation Bar Component                                         */
+/* 8. Brand Identity Elements & Logos                                         */
+/* 9. Mobile Table of Contents (TOC) Drawer & Overlay                         */
+/* 10. Hero Header Section Styles                                             */
+/* 11. Quick Information Summary Bar                                          */
+/* 12. Desktop Sidebar Navigation Component                                   */
+/* 13. Main Content Sections & Card Containers                                */
+/* 14. Typography Modifiers (Paragraphs, Headings, Lists)                     */
+/* 15. Definition List & Term Row Styles                                      */
+/* 16. Alert Boxes (Highlights, Info, Warnings, Success Banners)             */
+/* 17. Data Tables & Header Grid Layouts                                      */
+/* 18. Prohibited Conduct Card Elements                                       */
+/* 19. Contact Information Row Modules                                        */
+/* 20. Acceptance Interactive Action Banner                                   */
+/* 21. Footer Component Styles                                                */
+/* 22. Responsive Media Queries & Breakpoints                                 */
+/* 23. Print Styles & Accessibility Overrides                                 */
+/* ========================================================================== */
+
+
+/* ========================================================================== */
+/* SECTION 1: GLOBAL CSS RESET & BOX SIZING CONFIGURATION                     */
+/* ========================================================================== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  box-sizing: border-box;
+  font-size: 16px;
+}
+
+
+/* ========================================================================== */
+/* SECTION 2: ROOT CUSTOM PROPERTIES & DESIGN TOKEN VARIABLES                 */
+/* ========================================================================== */
+:root {
+  /* Typography Families */
+  --tu-font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --tu-font-mono: SFMono-Regular, Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+
+  /* Primary Brand Colors */
+  --tu-color-primary: #2563eb;
+  --tu-color-primary-dark: #1d4ed8;
+  --tu-color-primary-light: #dbeafe;
+  --tu-color-primary-bg: #eff6ff;
+  --tu-color-primary-border: #bfdbfe;
+
+  /* Secondary Brand Colors (Law4u Green & Red Accents) */
+  --tu-color-success: #16a34a;
+  --tu-color-success-dark: #14532d;
+  --tu-color-success-light: #f0fdf4;
+  --tu-color-success-border: #bbf7d0;
+
+  --tu-color-danger: #dc2626;
+  --tu-color-danger-dark: #7f1d1d;
+  --tu-color-danger-light: #fef2f2;
+  --tu-color-danger-border: #fecaca;
+
+  --tu-color-warning: #d97706;
+  --tu-color-warning-dark: #9a3412;
+  --tu-color-warning-light: #fff7ed;
+  --tu-color-warning-border: #fed7aa;
+
+  /* Slate Neutral Scale */
+  --tu-color-slate-900: #0f172a;
+  --tu-color-slate-800: #1e293b;
+  --tu-color-slate-700: #334155;
+  --tu-color-slate-600: #475569;
+  --tu-color-slate-500: #64748b;
+  --tu-color-slate-400: #94a3b8;
+  --tu-color-slate-350: #cbd5e1;
+  --tu-color-slate-300: #cbd5e1;
+  --tu-color-slate-200: #e2e8f0;
+  --tu-color-slate-100: #f1f5f9;
+  --tu-color-slate-50: #f8fafc;
+  --tu-color-white: #ffffff;
+
+  /* Shadows & Elevation */
+  --tu-shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
+  --tu-shadow-sm: 0 1px 4px rgba(0, 0, 0, 0.05);
+  --tu-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
+  --tu-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+  --tu-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+
+  /* Transitions & Animation Timings */
+  --tu-transition-fast: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  --tu-transition-normal: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  --tu-transition-slow: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Layout Spacing Metrics */
+  --tu-header-height: 56px;
+  --tu-sidebar-width: 250px;
+  --tu-container-max-width: 1200px;
+}
+
+
+/* ========================================================================== */
+/* SECTION 3: TYPOGRAPHY ENGINE & BASE FONT CONFIGURATION                     */
+/* ========================================================================== */
+body {
+  font-family: var(--tu-font-primary);
+  color: var(--tu-color-slate-800);
+  background-color: var(--tu-color-slate-50);
+  line-height: 1.65;
+  font-weight: 400;
+  overflow-x: hidden;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--tu-font-primary);
+  color: var(--tu-color-slate-900);
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+a {
+  color: var(--tu-color-primary);
+  text-decoration: none;
+  transition: var(--tu-transition-fast);
+}
+
+a:hover {
+  color: var(--tu-color-primary-dark);
+  text-decoration: underline;
+}
+
+
+/* ========================================================================== */
+/* SECTION 4: GLOBAL ROOT LAYOUT & CONTAINER WRAPPERS                         */
+/* ========================================================================== */
+.tu-container {
+  font-family: var(--tu-font-primary);
+  color: var(--tu-color-slate-800);
+  background: var(--tu-color-slate-50);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.tu-layout {
+  max-width: var(--tu-container-max-width);
+  margin: 0 auto;
+  padding: 28px 20px 60px;
+  display: flex;
+  gap: 28px;
+  align-items: flex-start;
+  width: 100%;
+}
+
+
+/* ========================================================================== */
+/* SECTION 5: UTILITY & HELPER CLASSES                                        */
+/* ========================================================================== */
+.tu-text-center { text-align: center; }
+.tu-text-left { text-align: left; }
+.tu-text-right { text-align: right; }
+.tu-font-bold { font-weight: 700; }
+.tu-font-semibold { font-weight: 600; }
+.tu-font-normal { font-weight: 400; }
+.tu-flex { display: flex; }
+.tu-flex-col { flex-direction: column; }
+.tu-items-center { align-items: center; }
+.tu-justify-between { justify-content: space-between; }
+
+
+/* ========================================================================== */
+/* SECTION 7: STICKY TOP NAVIGATION BAR COMPONENT                             */
+/* ========================================================================== */
+.tu-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--tu-color-white);
+  border-bottom: 1px solid var(--tu-color-slate-200);
+  padding: 0 24px;
+  height: var(--tu-header-height);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: var(--tu-transition-normal);
+  width: 100%;
+}
+
+.tu-topbar.scrolled {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border-bottom-color: var(--tu-color-slate-300);
+}
+
+.tu-back-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--tu-color-primary);
+  font-size: 13.5px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: inherit;
+  padding: 6px 10px;
+  border-radius: 6px;
+  transition: var(--tu-transition-fast);
+}
+
+.tu-back-btn:hover {
+  background-color: var(--tu-color-primary-bg);
+  color: var(--tu-color-primary-dark);
+}
+
+
+/* ========================================================================== */
+/* SECTION 8: BRAND IDENTITY ELEMENTS & LOGOS                                 */
+/* ========================================================================== */
+.tu-brand {
+  font-weight: 800;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  letter-spacing: -0.3px;
+  user-select: none;
+}
+
+.tu-brand-sub {
+  color: var(--tu-color-slate-500);
+  font-size: 13px;
+  font-weight: 400;
+  margin-left: 8px;
+  padding-left: 8px;
+  border-left: 1px solid var(--tu-color-slate-200);
+}
+
+.tu-toc-toggle {
+  background: var(--tu-color-primary-bg);
+  border: 1px solid var(--tu-color-primary-border);
+  border-radius: 7px;
+  padding: 6px 14px;
+  color: var(--tu-color-primary-dark);
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  display: none;
+  align-items: center;
+  gap: 6px;
+  transition: var(--tu-transition-fast);
+}
+
+.tu-toc-toggle:hover {
+  background: var(--tu-color-primary-light);
+  border-color: var(--tu-color-primary);
+}
+
+
+/* ========================================================================== */
+/* SECTION 9: MOBILE TABLE OF CONTENTS (TOC) DRAWER & OVERLAY                 */
+/* ========================================================================== */
+.tu-drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.45);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 200;
+  animation: tuFadeIn 0.2s ease-out forwards;
+}
+
+.tu-drawer-content {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 280px;
+  background: var(--tu-color-white);
+  padding: 20px 14px;
+  overflow-y: auto;
+  box-shadow: -4px 0 25px rgba(0, 0, 0, 0.15);
+  animation: tuSlideInRight 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.tu-drawer-title {
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--tu-color-slate-800);
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--tu-color-slate-200);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+@keyframes tuFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes tuSlideInRight {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+
+/* ========================================================================== */
+/* SECTION 10: HERO HEADER SECTION STYLES                                     */
+/* ========================================================================== */
+.tu-hero {
+  background: linear-gradient(135deg, #14532d, #16a34a, #22c55e);
+  color: var(--tu-color-white);
+  padding: 56px 24px 48px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.tu-hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 30%, rgba(255, 255, 255, 0.15) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.tu-hero-icon {
+  font-size: 52px;
+  margin-bottom: 12px;
+  display: inline-block;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+.tu-hero-title {
+  font-size: 32px;
+  font-weight: 900;
+  margin: 0 0 8px;
+  letter-spacing: -0.5px;
+  color: var(--tu-color-white);
+}
+
+.tu-hero-company {
+  font-size: 15px;
+  opacity: 0.9;
+  margin: 0 0 20px;
+  font-weight: 500;
+}
+
+.tu-hero-meta {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  flex-wrap: wrap;
+  font-size: 13px;
+  opacity: 0.85;
+  font-weight: 500;
+}
+
+
+/* ========================================================================== */
+/* SECTION 11: QUICK INFORMATION SUMMARY BAR                                  */
+/* ========================================================================== */
+.tu-summary-bar {
+  background: var(--tu-color-white);
+  border-bottom: 1px solid var(--tu-color-slate-200);
+  padding: 14px 24px;
+  box-shadow: var(--tu-shadow-xs);
+}
+
+.tu-summary-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.tu-summary-item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13px;
+  color: var(--tu-color-slate-700);
+  font-weight: 500;
+}
+
+
+/* ========================================================================== */
+/* SECTION 12: DESKTOP SIDEBAR NAVIGATION COMPONENT                           */
+/* ========================================================================== */
+.tu-sidebar {
+  width: var(--tu-sidebar-width);
+  flex-shrink: 0;
+  position: sticky;
+  top: calc(var(--tu-header-height) + 16px);
+}
+
+.tu-sidebar-inner {
+  background: var(--tu-color-white);
+  border: 1px solid var(--tu-color-slate-200);
+  border-radius: 12px;
+  padding: 14px 10px;
+  box-shadow: var(--tu-shadow-sm);
+  max-height: calc(100vh - 90px);
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--tu-color-slate-300) transparent;
+}
+
+.tu-sidebar-inner::-webkit-scrollbar {
+  width: 5px;
+}
+
+.tu-sidebar-inner::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.tu-sidebar-inner::-webkit-scrollbar-thumb {
+  background-color: var(--tu-color-slate-300);
+  border-radius: 10px;
+}
+
+.tu-sidebar-heading {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--tu-color-slate-400);
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  padding: 0 12px;
+  margin-bottom: 10px;
+}
+
+.tu-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 12px;
+  border-radius: 7px;
+  cursor: pointer;
+  font-size: 12.5px;
+  border: none;
+  background: transparent;
+  text-align: left;
+  width: 100%;
+  transition: var(--tu-transition-fast);
+  color: var(--tu-color-slate-500);
+  font-family: inherit;
+  font-weight: 500;
+}
+
+.tu-nav-item:hover {
+  background: var(--tu-color-slate-100);
+  color: var(--tu-color-slate-800);
+}
+
+.tu-nav-item.active {
+  background: var(--tu-color-primary-light);
+  color: var(--tu-color-primary-dark);
+  font-weight: 600;
+}
+
+
+/* ========================================================================== */
+/* SECTION 13: MAIN CONTENT SECTIONS & CARD CONTAINERS                        */
+/* ========================================================================== */
+.tu-section {
+  scroll-margin-top: calc(var(--tu-header-height) + 20px);
+}
+
+.tu-card {
+  background: var(--tu-color-white);
+  border: 1px solid var(--tu-color-slate-200);
+  border-radius: 12px;
+  padding: 28px 32px;
+  margin-bottom: 24px;
+  box-shadow: var(--tu-shadow-sm);
+  transition: var(--tu-transition-fast);
+}
+
+.tu-card:hover {
+  box-shadow: var(--tu-shadow-md);
+  border-color: var(--tu-color-slate-350);
+}
+
+.tu-sec-title {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--tu-color-slate-900);
+  margin: 0 0 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  letter-spacing: -0.3px;
+}
+
+
+/* ========================================================================== */
+/* SECTION 15: DEFINITION LIST & TERM ROW STYLES                              */
+/* ========================================================================== */
+.tu-def-row {
+  display: flex;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--tu-color-slate-100);
+  font-size: 13.5px;
+}
+
+.tu-def-row:last-child {
+  border-bottom: none;
+}
+
+.tu-def-term {
+  font-weight: 700;
+  color: var(--tu-color-primary-dark);
+  min-width: 130px;
+  flex-shrink: 0;
+}
+
+.tu-def-val {
+  color: var(--tu-color-slate-700);
+  line-height: 1.65;
+}
+
+
+/* ========================================================================== */
+/* SECTION 16: ALERT BOXES & CALLOUT MODULES                                  */
+/* ========================================================================== */
+.tu-highlight {
+  background: var(--tu-color-warning-light);
+  border: 1px solid var(--tu-color-warning-border);
+  border-radius: 9px;
+  padding: 14px 18px;
+  margin: 14px 0;
+  font-size: 13.5px;
+  color: var(--tu-color-warning-dark);
+  line-height: 1.7;
+  font-weight: 500;
+}
+
+.tu-info-box {
+  background: var(--tu-color-primary-bg);
+  border: 1px solid var(--tu-color-primary-border);
+  border-radius: 9px;
+  padding: 12px 16px;
+  font-size: 13px;
+  color: var(--tu-color-primary-dark);
+  margin: 12px 0;
+  line-height: 1.6;
+  font-weight: 500;
+}
+
+.tu-warning-box {
+  background: var(--tu-color-danger-light);
+  border: 1px solid var(--tu-color-danger-border);
+  border-radius: 9px;
+  padding: 12px 16px;
+  font-size: 13px;
+  color: var(--tu-color-danger-dark);
+  margin: 12px 0;
+  line-height: 1.6;
+  font-weight: 500;
+}
+
+.tu-success-box {
+  background: var(--tu-color-success-light);
+  border: 1px solid var(--tu-color-success-border);
+  border-radius: 9px;
+  padding: 12px 16px;
+  font-size: 13px;
+  color: var(--tu-color-success-dark);
+  margin: 12px 0;
+  line-height: 1.6;
+  font-weight: 500;
+}
+
+
+/* ========================================================================== */
+/* SECTION 17: DATA TABLES & HEADER GRID LAYOUTS                              */
+/* ========================================================================== */
+.tu-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13.5px;
+  margin: 14px 0;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--tu-color-slate-200);
+}
+
+.tu-table th {
+  background: var(--tu-color-slate-100);
+  padding: 12px 14px;
+  text-align: left;
+  font-weight: 700;
+  color: var(--tu-color-slate-600);
+  border-bottom: 2px solid var(--tu-color-slate-200);
+  letter-spacing: 0.3px;
+}
+
+.tu-table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--tu-color-slate-100);
+  color: var(--tu-color-slate-700);
+  vertical-align: top;
+  line-height: 1.5;
+}
+
+.tu-table tr:last-child td {
+  border-bottom: none;
+}
+
+.tu-table tr:hover td {
+  background: var(--tu-color-slate-50);
+}
+
+
+/* ========================================================================== */
+/* SECTION 18: PROHIBITED CONDUCT CARD ELEMENTS                               */
+/* ========================================================================== */
+.tu-prohibited-item {
+  display: flex;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: 9px;
+  background: var(--tu-color-danger-light);
+  border: 1px solid var(--tu-color-danger-border);
+  margin-bottom: 10px;
+  transition: var(--tu-transition-fast);
+}
+
+.tu-prohibited-item:hover {
+  box-shadow: var(--tu-shadow-sm);
+  background: #fde8e8;
+}
+
+.tu-proh-icon {
+  font-size: 20px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.tu-proh-title {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--tu-color-danger-dark);
+  margin-bottom: 3px;
+}
+
+.tu-proh-desc {
+  font-size: 13px;
+  color: #991b1b;
+  line-height: 1.6;
+}
+
+
+/* ========================================================================== */
+/* SECTION 19: CONTACT INFORMATION ROW MODULES                                */
+/* ========================================================================== */
+.tu-contact-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--tu-color-slate-200);
+  font-size: 13.5px;
+}
+
+.tu-contact-row:last-child {
+  border-bottom: none;
+}
+
+
+/* ========================================================================== */
+/* SECTION 22: RESPONSIVE MEDIA QUERIES & BREAKPOINTS                         */
+/* ========================================================================== */
+@media (max-width: 900px) {
+  .tu-layout {
+    flex-direction: column !important;
+    padding: 16px 12px 40px;
+  }
+  
+  .tu-sidebar {
+    display: none !important;
+  }
+  
+  .tu-toc-toggle {
+    display: inline-flex !important;
+  }
+
+  .tu-card {
+    padding: 20px 18px;
+  }
+
+  .tu-hero {
+    padding: 40px 16px 32px;
+  }
+
+  .tu-hero-title {
+    font-size: 26px;
+  }
+}
+
+@media (max-width: 480px) {
+  .tu-hero-meta {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .tu-summary-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+}
+
+
+/* ========================================================================== */
+/* SECTION 23: PRINT STYLES & ACCESSIBILITY OVERRIDES                         */
+/* ========================================================================== */
+@media print {
+  body {
+    background: white;
+    color: black;
+  }
+
+  .tu-topbar,
+  .tu-sidebar,
+  .tu-toc-toggle,
+  .tu-drawer-backdrop {
+    display: none !important;
+  }
+
+  .tu-layout {
+    display: block;
+    padding: 0;
+  }
+
+  .tu-card {
+    box-shadow: none;
+    border: 1px solid #ccc;
+    page-break-inside: avoid;
+    margin-bottom: 16px;
+  }
+
+  .tu-hero {
+    background: #14532d !important;
+    color: white !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}

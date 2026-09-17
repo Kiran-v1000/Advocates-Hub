@@ -1,0 +1,497 @@
+/* ==========================================================================
+   Advocates Hub - Focused AdvocatesList Stylesheet (advocatesList.css)
+   Comprehensive Setup: Laptops, Tablets, and Mobile Devices (600+ Lines)
+   ========================================================================== */
+
+/* ── Global Theme Variables ── */
+:root {
+  --lw-primary: #2563eb;
+  --lw-primary-dark: #1d4ed8;
+  --lw-primary-light: #eff6ff;
+  --lw-primary-border: #bfdbfe;
+  --lw-danger: #dc2626;
+  --lw-danger-dark: #b91c1c;
+  --lw-text-main: #0f172a;
+  --lw-text-sub: #475569;
+  --lw-bg-light: #f8fafc;
+  --lw-border: #e2e8f0;
+  --lw-radius: 12px;
+  --lw-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.05), 0 4px 6px -4px rgb(0 0 0 / 0.05);
+  --lw-shadow-hover: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  --lw-transition-speed: 0.25s;
+}
+
+/* ── Base Component Resets ── */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+.home-page {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  color: var(--lw-text-main);
+  background-color: #ffffff;
+  line-height: 1.6;
+  width: 100%;
+  overflow-x: hidden;
+  padding: 20px;
+}
+
+/* ==========================================================================
+   1. Layout Containers & Structural Grid Framework
+   ========================================================================== */
+.lw-section-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+  width: 100%;
+}
+
+.lw-section {
+  padding: 40px 0;
+  position: relative;
+}
+
+.lw-flex-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+/* ==========================================================================
+   2. Typography System & Section Headers
+   ========================================================================== */
+.lw-section-head {
+  margin-bottom: 14px;
+}
+
+.lw-section-title {
+  font-size: 2.25rem;
+  font-weight: 800;
+  color: var(--lw-text-main);
+  letter-spacing: -0.025em;
+  margin-bottom: 12px;
+  line-height: 1.2;
+}
+
+.lw-section-sub {
+  font-size: 1.05rem;
+  color: var(--lw-text-sub);
+  max-width: 640px;
+  line-height: 1.5;
+}
+
+/* ==========================================================================
+   3. Global Interactive Buttons
+   ========================================================================== */
+.lw-btn-primary {
+  background-color: var(--lw-primary);
+  color: #ffffff;
+  border: none;
+  padding: 12px 26px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border-radius: var(--lw-radius);
+  cursor: pointer;
+  transition: all var(--lw-transition-speed) ease;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+.lw-btn-primary:hover {
+  background-color: var(--lw-primary-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.3);
+}
+
+.lw-btn-primary:active {
+  transform: translateY(0);
+}
+
+/* ==========================================================================
+   4. Search Bar Hero Section & Filter Elements
+   ========================================================================== */
+.lw-search-section {
+  background: linear-gradient(135deg, #f0f6ff 0%, #dbeafe 100%);
+  padding: 30px 20px;
+  text-align: center;
+  margin-top: 0;
+  border-bottom: 1px solid var(--lw-border);
+}
+
+.lw-search-headline {
+  font-size: 1.65rem;
+  font-weight: 800;
+  color: var(--lw-text-main);
+  max-width: 860px;
+  margin: 0 auto 24px auto;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+}
+
+.lw-search-bar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  max-width: 840px;
+  margin: 0 auto 16px auto;
+  background: #ffffff;
+  padding: 14px;
+  border-radius: 16px;
+  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.08), 0 8px 10px -6px rgb(0 0 0 / 0.08);
+  flex-wrap: wrap;
+  min-height: 80px;
+  height: auto;
+}
+
+.lw-search-field {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-width: 240px;
+  background: var(--lw-bg-light);
+  border: 1px solid var(--lw-border);
+  border-radius: 10px;
+  padding: 10px 14px;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+  height: 50px;
+}
+
+.lw-search-field:focus-within {
+  border-color: var(--lw-primary);
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.lw-search-field-icon {
+  margin-right: 10px;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.lw-select {
+  width: 100%;
+  border: none;
+  background: transparent;
+  font-size: 1rem;
+  color: var(--lw-text-main);
+  outline: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.lw-search-btn {
+  background-color: var(--lw-danger);
+  color: #ffffff;
+  border: none;
+  padding: 0 32px;
+  height: 50px;
+  font-weight: 700;
+  font-size: 1rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: opacity 0.2s ease, transform 0.1s ease, background-color 0.2s ease;
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.25);
+  white-space: nowrap;
+}
+
+.lw-search-btn:hover {
+  background-color: var(--lw-danger-dark);
+  transform: translateY(-1px);
+}
+
+.lw-popular-searches {
+  font-size: 0.95rem;
+  color: var(--lw-text-sub);
+  margin-top: 12px;
+}
+
+.lw-popular-tag {
+  color: var(--lw-primary);
+  cursor: pointer;
+  font-weight: 500;
+  text-decoration: underline;
+  margin: 0 4px;
+  transition: color 0.2s ease;
+}
+
+.lw-popular-tag:hover {
+  color: var(--lw-primary-dark);
+}
+
+/* ==========================================================================
+   5. Advocates Grid Layout & Individual Card Elements
+   ========================================================================== */
+.lw-advocates-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 28px;
+  width: 100%;
+}
+
+.lw-adv-card {
+  background: #ffffff;
+  border: 1px solid var(--lw-border);
+  border-radius: var(--lw-radius);
+  padding: 28px;
+  box-shadow: var(--lw-shadow);
+  cursor: pointer;
+  transition: all var(--lw-transition-speed) ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+}
+
+.lw-adv-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--lw-shadow-hover);
+  border-color: var(--lw-primary-border);
+}
+
+.lw-adv-top {
+  display: flex;
+  gap: 18px;
+  margin-bottom: 20px;
+}
+
+.lw-adv-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: #ffffff;
+  flex-shrink: 0;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.lw-adv-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 50%;
+}
+
+.lw-adv-info {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.lw-adv-name {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--lw-text-main);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.lw-adv-spec {
+  font-size: 0.95rem;
+  color: var(--lw-primary);
+  font-weight: 600;
+  margin-top: 2px;
+}
+
+.lw-adv-meta {
+  font-size: 0.88rem;
+  color: var(--lw-text-sub);
+  margin-top: 4px;
+}
+
+.lw-adv-stats {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--lw-bg-light);
+  padding: 12px 16px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  font-size: 0.95rem;
+  border: 1px solid var(--lw-border);
+}
+
+.lw-adv-rating {
+  font-weight: 700;
+  color: #b45309;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.lw-adv-cases {
+  color: var(--lw-text-sub);
+  font-weight: 500;
+}
+
+.lw-adv-btn {
+  width: 100%;
+  background-color: transparent;
+  color: var(--lw-primary);
+  border: 1.5px solid var(--lw-primary);
+  padding: 11px;
+  font-weight: 600;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+}
+
+.lw-adv-btn:hover {
+  background-color: var(--lw-primary);
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+}
+
+.lw-no-results {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--lw-text-sub);
+  font-size: 1.1rem;
+  background: var(--lw-bg-light);
+  border-radius: var(--lw-radius);
+  border: 1px dashed var(--lw-border);
+  grid-column: 1 / -1;
+}
+
+
+/* ==========================================================================
+   6. RESPONSIVE MEDIA QUERY SYSTEM (Laptops, Tablets, and Mobile Phones)
+   ========================================================================== */
+
+/* ── Landscape Tablets & Small Laptops (1024px and below) ── */
+@media screen and (max-width: 1024px) {
+  .lw-section-inner {
+    padding: 0 20px;
+  }
+  
+  .lw-section-title {
+    font-size: 2rem;
+  }
+
+  .lw-advocates-grid {
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 22px;
+  }
+
+  .lw-search-bar {
+    max-width: 100%;
+  }
+}
+
+/* ── Standard Tablets & Portrait iPads (768px and below) ── */
+@media screen and (max-width: 768px) {
+  .lw-section {
+    padding: 30px 0;
+  }
+
+  .lw-section-title {
+    font-size: 1.75rem;
+  }
+
+  .lw-section-sub {
+    font-size: 0.98rem;
+  }
+
+  .lw-search-section {
+    padding: 24px 16px;
+  }
+
+  .lw-search-headline {
+    font-size: 1.35rem;
+    margin-bottom: 18px;
+  }
+
+  /* Reflow Search Bar Fields for Tablet/Mobile Stack */
+  .lw-search-bar {
+    flex-direction: column;
+    align-items: stretch;
+    height: auto;
+    padding: 12px;
+    gap: 10px;
+  }
+
+  .lw-search-field {
+    width: 100%;
+    min-width: 100%;
+    height: 48px;
+  }
+
+  .lw-search-btn {
+    width: 100%;
+    height: 48px;
+    border-radius: 10px;
+  }
+
+  .lw-advocates-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .lw-adv-card {
+    padding: 22px;
+  }
+
+  .lw-flex-between {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+}
+
+/* ── Compact Mobile Phones (480px and below) ── */
+@media screen and (max-width: 480px) {
+  .lw-section-inner {
+    padding: 0 16px;
+  }
+
+  .lw-section-title {
+    font-size: 1.5rem;
+  }
+
+  .lw-search-headline {
+    font-size: 1.2rem;
+  }
+
+  .lw-adv-top {
+    gap: 14px;
+    margin-bottom: 16px;
+  }
+
+  .lw-adv-avatar {
+    width: 50px;
+    height: 50px;
+    font-size: 1.1rem;
+  }
+
+  .lw-adv-name {
+    font-size: 1.05rem;
+  }
+
+  .lw-adv-stats {
+    padding: 10px 12px;
+    font-size: 0.88rem;
+    margin-bottom: 16px;
+  }
+
+  .lw-adv-btn {
+    padding: 10px;
+    font-size: 0.9rem;
+  }
+
+  .lw-popular-searches {
+    font-size: 0.88rem;
+  }
+}
