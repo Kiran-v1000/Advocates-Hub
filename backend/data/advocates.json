@@ -20,7 +20,10 @@
     "bio": "Handles bail, FIR disputes, and criminal appeals with a strong courtroom record and practical guidance for clients.",
     "avatar": "/uploads/chetan.png",
     "status": "approved",
-    "passwordHash": "scrypt$253e4bd3ec2b444b220f2bf6f64895d0$8e07a193490227e59077adc24d5ff263a47b54443e76f91872c0e98f2d2d2a865262d6c37152c2dee8aea7d9db7cf2b6632d207ecc55453e7d84cd345fa18a68"
+    "passwordHash": "scrypt$7b87a70eef8ec86b524ebe7dc9462bf0$79553f04d661a57caf85c6448ede658ce2e2dce0bf0390da6cc07e971f640781bf4c6ca507230712db9b69f939af0a8656272fda2c81e35dfdb7a9976e96aba0",
+    "court": "",
+    "barCouncil": "",
+    "barId": ""
   },
   {
     "id": 2,
@@ -1880,20 +1883,23 @@
   {
     "id": 87,
     "name": "Kiran",
-    "city": "Gokak",
-    "practiceArea": "Intellectual Property",
-    "speciality": "Intellectual Property",
-    "experience": "5–10 years",
+    "city": "Bailhongal",
+    "practiceArea": "Immigration",
+    "speciality": "Immigration",
+    "court": "High Court",
+    "barCouncil": "Bar Council of Delhi",
+    "barId": "123456",
+    "experience": "3–5 years",
     "rating": 0,
     "cases": 0,
-    "fee": "9887",
-    "phone": "0987656789",
+    "fee": "5000",
+    "phone": "8374838383",
     "email": "kiran@gmail.com",
     "languages": [],
     "availability": "Not available",
-    "bio": "vyyjv",
-    "avatar": "/uploads/kiran.png",
+    "bio": "7",
+    "avatar": "/uploads/kiran-87.webp",
     "status": "approved",
-    "passwordHash": "scrypt$34d97ba43263a65984dfa78f11a718b8$0ac97a6e47e279cafe23c266018533da898ef20bd700723a6d1630c79a1641f102e46c0244f55333662e56b29835c0b6700a9858fc8f4b3ce290bc713679e3e5"
+    "passwordHash": "scrypt$2e23047437c219f9b90e5bc3f38c181a$9e814c65f4bf64fa8f4957654431ddcd49e9715d7a3429319b965223341bdd11e88a88f0db9444d862c07a3dd8d3c95dc869d5f332cf934feda9b2a1963d50ba"
   }
 ]

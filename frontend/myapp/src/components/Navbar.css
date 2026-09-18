@@ -44,7 +44,7 @@
 .lw-logo {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 10px;
   text-decoration: none;
   flex-shrink: 0;
   transition: opacity 0.2s ease;
@@ -52,26 +52,6 @@
 
 .lw-logo:hover {
   opacity: 0.9;
-}
-
-.lw-logo-law {
-  color: #2563eb;
-  font-size: 22px;
-  font-weight: 800;
-  letter-spacing: -0.5px;
-}
-
-.lw-logo-4 {
-  color: #dc2626;
-  font-size: 22px;
-  font-weight: 800;
-  letter-spacing: -0.5px;
-}
-
-.lw-logo-u {
-  color: #16a34a;
-  font-size: 22px;
-  font-weight: 800;
 }
 
 .lw-logo-tagline {

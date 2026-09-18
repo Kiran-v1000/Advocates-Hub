@@ -23,11 +23,11 @@ import {
   loadAdvocates,
 } from "../data/Advocatesstore";
 import { api, setAdminToken, getAdminToken } from "../data/api";
+import BrandLogo from "../components/BrandLogo";
 import { getMessages, markAsRead, deleteMessage } from "../data/MessageStore";
 import { getQuestions, markQuestionAsRead, deleteQuestion } from "../data/QuestionStore";
 import "./AdminPage.css";
 const REQUESTS_KEY   = "law4u_requests";    // { [advocateId]: Request[] }
-const ADVOCATES_KEY  = "law4u_advocates";   // cached list
 const BOOKINGS_KEY   = "law4u_bookings";    // { bookingId: Booking }
 
 
@@ -69,217 +69,6 @@ function persistBooking(req, advocate) {
   return all[key];
 }
 
-// ─────────────────────────────────────────────────────────────
-//  EDIT ADVOCATE MODAL
-// ─────────────────────────────────────────────────────────────
-function EditModal({ adv, onSave, onClose }) {
-  const [f, setF] = useState({
-    name:         adv.name || "",
-    email:        adv.email || "",
-    phone:        adv.phone || "",
-    city:         adv.city || adv.location || "",
-    speciality:   adv.speciality || adv.practiceArea || "",
-    experience:   adv.experience || "",
-    fee:          adv.fee || "",
-    rating:       adv.rating || "",
-    availability: adv.availability || "",
-    bio:          adv.bio || "",
-    status:       adv.status || "approved",
-  });
-  const [saving, setSaving] = useState(false);
-
-  const set = (k) => (e) => setF(p => ({ ...p, [k]: e.target.value }));
-
-  const handleSave = async () => {
-    if (!f.name.trim() || !f.email.trim()) { alert("Name and email required"); return; }
-    setSaving(true);
-    const updated = { ...f, city: f.city };
-    await onSave(updated);
-    setSaving(false);
-    onClose();
-  };
-
-  const Row = ({ label, field, type = "text", ph, full }) => (
-    <div style={{ display:"flex", flexDirection:"column", gap:5, gridColumn: full?"1/-1":"auto" }}>
-      <label style={{ fontSize:12, fontWeight:600, color:"#374151" }}>{label}</label>
-      {type === "textarea"
-        ? <textarea rows={3} value={f[field]} onChange={set(field)} placeholder={ph}
-            style={{ border:"1.5px solid #e2e8f0", borderRadius:8, padding:"8px 11px", fontSize:13,
-              fontFamily:"inherit", resize:"vertical", outline:"none", color:"#1e293b", width:"100%" }}/>
-        : type === "select"
-          ? <select value={f[field]} onChange={set(field)}
-              style={{ border:"1.5px solid #e2e8f0", borderRadius:8, padding:"8px 11px",
-                fontSize:13, fontFamily:"inherit", outline:"none", color:"#1e293b" }}>
-              <option value="approved">Approved</option>
-              <option value="pending">Pending</option>
-              <option value="rejected">Rejected</option>
-            </select>
-          : <input type={type} value={f[field]} onChange={set(field)} placeholder={ph}
-              style={{ border:"1.5px solid #e2e8f0", borderRadius:8, padding:"8px 11px",
-                fontSize:13, fontFamily:"inherit", outline:"none", color:"#1e293b" }}/>
-      }
-    </div>
-  );
-
-  return (
-    <div style={{ position:"fixed",inset:0,background:"rgba(0,0,0,.48)",zIndex:500,
-      display:"flex",alignItems:"center",justifyContent:"center",padding:16 }}
-      onClick={e => e.target===e.currentTarget && onClose()}>
-      <div style={{ background:"#fff",borderRadius:14,width:"100%",maxWidth:580,
-        maxHeight:"92vh",overflowY:"auto",boxShadow:"0 24px 64px rgba(0,0,0,.22)",
-        display:"flex",flexDirection:"column" }}>
-
-        {/* Header */}
-        <div style={{ display:"flex",alignItems:"center",justifyContent:"space-between",
-          padding:"16px 20px",borderBottom:"1px solid #e2e8f0" }}>
-          <div style={{ display:"flex",alignItems:"center",gap:10 }}>
-            <Avi name={adv.name} color={colorFor(adv.id)} size={36} src={adv.avatar||adv.image} />
-            <div>
-              <div style={{ fontWeight:700,fontSize:15 }}>Edit Advocate</div>
-              <div style={{ fontSize:12,color:"#64748b" }}>{adv.name}</div>
-            </div>
-          </div>
-          <button onClick={onClose} style={{ background:"none",border:"none",cursor:"pointer",fontSize:18,color:"#94a3b8" }}>✕</button>
-        </div>
-
-        {/* Form */}
-        <div style={{ padding:"18px 20px",display:"grid",gridTemplateColumns:"1fr 1fr",gap:12,flex:1 }}>
-          <Row label="Full Name *"    field="name"         ph="Adv. Full Name" />
-          <Row label="Email *"        field="email"        type="email" ph="advocate@email.com" />
-          <Row label="Phone"          field="phone"        ph="10-digit mobile" />
-          <Row label="City"           field="city"         ph="e.g. Delhi" />
-          <Row label="Speciality"     field="speciality"   ph="e.g. Criminal Law" />
-          <Row label="Experience"     field="experience"   ph="e.g. 10 years" />
-          <Row label="Fee"            field="fee"          ph="e.g. ₹2000/hr" />
-          <Row label="Rating"         field="rating"       type="number" ph="4.8" />
-          <Row label="Availability"   field="availability" ph="e.g. Available weekdays" />
-          <Row label="Status"         field="status"       type="select" />
-          <Row label="Bio" field="bio" type="textarea" ph="Short professional bio…" full />
-        </div>
-
-        {/* Footer */}
-        <div style={{ display:"flex",gap:10,padding:"14px 20px",borderTop:"1px solid #e2e8f0",justifyContent:"flex-end" }}>
-          <button onClick={onClose} style={{ padding:"8px 18px",borderRadius:8,border:"1px solid #e2e8f0",background:"#f8fafc",color:"#475569",fontFamily:"inherit",fontSize:13,fontWeight:600,cursor:"pointer" }}>Cancel</button>
-          <button onClick={handleSave} disabled={saving}
-            style={{ padding:"8px 22px",borderRadius:8,border:"none",background:"#2563eb",color:"#fff",fontFamily:"inherit",fontSize:13,fontWeight:700,cursor:saving?"not-allowed":"pointer",opacity:saving?.6:1 }}>
-            {saving ? "Saving…" : "💾 Save Changes"}
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-}
-// ─────────────────────────────────────────────────────────────
-//  DELETE CONFIRM MODAL
-// ─────────────────────────────────────────────────────────────
-function DeleteModal({ adv, onConfirm, onCancel }) {
-  return (
-    <div style={{ position:"fixed",inset:0,background:"rgba(0,0,0,.48)",zIndex:500,
-      display:"flex",alignItems:"center",justifyContent:"center",padding:16 }}
-      onClick={e => e.target===e.currentTarget && onCancel()}>
-      <div style={{ background:"#fff",borderRadius:14,maxWidth:380,width:"100%",padding:"32px 28px",
-        boxShadow:"0 24px 64px rgba(0,0,0,.22)",textAlign:"center" }}>
-        <div style={{ fontSize:52,marginBottom:12 }}>🗑️</div>
-        <h3 style={{ fontSize:18,fontWeight:800,marginBottom:8 }}>Delete Advocate</h3>
-        <p style={{ fontSize:13.5,color:"#64748b",lineHeight:1.7,marginBottom:22 }}>
-          Are you sure you want to delete <strong>{adv.name}</strong>?<br/>
-          All their requests and bookings will also be removed.
-        </p>
-        <div style={{ display:"flex",gap:10,justifyContent:"center" }}>
-          <button onClick={onCancel} style={{ padding:"9px 22px",borderRadius:8,border:"1px solid #e2e8f0",background:"#f8fafc",color:"#475569",fontFamily:"inherit",fontSize:13,fontWeight:600,cursor:"pointer" }}>Cancel</button>
-          <button onClick={onConfirm} style={{ padding:"9px 22px",borderRadius:8,border:"none",background:"#dc2626",color:"#fff",fontFamily:"inherit",fontSize:13,fontWeight:700,cursor:"pointer" }}>Yes, Delete</button>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-
-// ─────────────────────────────────────────────────────────────
-//  ADD ADVOCATE MODAL
-// ─────────────────────────────────────────────────────────────
-function AddAdvocateModal({ onAdd, onClose }) {
-  const [f, setF] = useState({
-    name:"", email:"", phone:"", city:"", speciality:"",
-    experience:"", fee:"", rating:"4.5", availability:"Available",
-    bio:"", barId:"", status:"approved",
-  });
-  const [saving, setSaving] = useState(false);
-  const [err,    setErr]    = useState("");
-
-  const set = (k) => (e) => { setF(p => ({ ...p, [k]:e.target.value })); setErr(""); };
-
-  const handleAdd = async () => {
-    if (!f.name.trim() || !f.email.trim()) { setErr("Name and email are required"); return; }
-    setSaving(true);
-    const newAdv = {
-      ...f,
-      practiceArea: f.speciality,
-      rating:       Number(f.rating) || 4.5,
-    };
-    try {
-      await onAdd(newAdv);
-    } catch (error) {
-      setErr(error.message);
-      setSaving(false);
-      return;
-    }
-    setSaving(false);
-    onClose();
-  };
-
-  const F = ({ label, field, type="text", ph, full }) => (
-    <div style={{ display:"flex",flexDirection:"column",gap:5,gridColumn:full?"1/-1":"auto" }}>
-      <label style={{ fontSize:12,fontWeight:600,color:"#374151" }}>{label}</label>
-      <input type={type} value={f[field]} onChange={set(field)} placeholder={ph}
-        style={{ border:"1.5px solid #e2e8f0",borderRadius:8,padding:"8px 11px",fontSize:13,
-          fontFamily:"inherit",outline:"none",color:"#1e293b" }}/>
-    </div>
-  );
-
-  return (
-    <div style={{ position:"fixed",inset:0,background:"rgba(0,0,0,.48)",zIndex:500,
-      display:"flex",alignItems:"center",justifyContent:"center",padding:16 }}
-      onClick={e => e.target===e.currentTarget && onClose()}>
-      <div style={{ background:"#fff",borderRadius:14,width:"100%",maxWidth:560,
-        maxHeight:"92vh",overflowY:"auto",boxShadow:"0 24px 64px rgba(0,0,0,.22)" }}>
-        <div style={{ display:"flex",alignItems:"center",justifyContent:"space-between",
-          padding:"16px 20px",borderBottom:"1px solid #e2e8f0" }}>
-          <h3 style={{ fontSize:16,fontWeight:800 }}>➕ Add New Advocate</h3>
-          <button onClick={onClose} style={{ background:"none",border:"none",cursor:"pointer",fontSize:18,color:"#94a3b8" }}>✕</button>
-        </div>
-        {err && <div style={{ background:"#fee2e2",color:"#7f1d1d",padding:"10px 20px",fontSize:13 }}>⚠️ {err}</div>}
-        <div style={{ padding:"18px 20px",display:"grid",gridTemplateColumns:"1fr 1fr",gap:12 }}>
-          <F label="Full Name *"  field="name"       ph="Adv. Full Name" />
-          <F label="Email *"      field="email"      type="email" ph="advocate@email.com" />
-          <F label="Phone"        field="phone"      ph="10-digit" />
-          <F label="City"         field="city"       ph="e.g. Delhi" />
-          <F label="Speciality"   field="speciality" ph="e.g. Criminal Law" />
-          <F label="Experience"   field="experience" ph="e.g. 10 years" />
-          <F label="Fee"          field="fee"        ph="e.g. ₹2000/hr" />
-          <F label="Rating"       field="rating"     type="number" ph="4.5" />
-          <F label="Bar ID"       field="barId"      ph="e.g. BCI/DL/2012/1234" />
-          <F label="Availability" field="availability" ph="e.g. Available weekdays" />
-          <div style={{ display:"flex",flexDirection:"column",gap:5,gridColumn:"1/-1" }}>
-            <label style={{ fontSize:12,fontWeight:600,color:"#374151" }}>Bio</label>
-            <textarea rows={3} value={f.bio} onChange={set("bio")} placeholder="Short professional bio…"
-              style={{ border:"1.5px solid #e2e8f0",borderRadius:8,padding:"8px 11px",
-                fontSize:13,fontFamily:"inherit",resize:"vertical",outline:"none",color:"#1e293b" }}/>
-          </div>
-        </div>
-        <div style={{ display:"flex",gap:10,padding:"14px 20px",borderTop:"1px solid #e2e8f0",justifyContent:"flex-end" }}>
-          <button onClick={onClose} style={{ padding:"8px 18px",borderRadius:8,border:"1px solid #e2e8f0",background:"#f8fafc",color:"#475569",fontFamily:"inherit",fontSize:13,fontWeight:600,cursor:"pointer" }}>Cancel</button>
-          <button onClick={handleAdd} disabled={saving}
-            style={{ padding:"8px 22px",borderRadius:8,border:"none",background:"#16a34a",color:"#fff",fontFamily:"inherit",fontSize:13,fontWeight:700,cursor:"pointer" }}>
-            {saving ? "Adding…" : "✅ Add Advocate"}
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// Demo-only credentials — replace with real backend auth in production.
 const CITIES = ["Aland", "Afzalpur", "Alur", "Ankola", "Arakalgud", "Arasikere", "Athani", "Aurad", "Badami", "Bagepalli", "Bagalkot", "Baindur", "Bailhongal", "Ballari", "Banahatti", "Bangarapet", "Bantwal", "Basavakalyan", "Basavana Bagewadi", "Belagavi", "Belthangady", "Belur", "Bengaluru", "Bengaluru Rural", "Bhadravati", "Bhalki", "Bhatkal", "Bidar", "Bilagi", "Byadgi", "Chamarajanagar", "Challakere", "Channagiri", "Channapatna", "Channarayapatna", "Chikkaballapur", "Chikkamagaluru", "Chikkodi", "Chiknayakanhalli", "Chincholi", "Chitapur", "Chitradurga", "Chintamani", "Dandeli", "Davangere", "Devadurga", "Devanahalli", "Dharwad", "Doddaballapur", "Gadag", "Gangavathi", "Gauribidanur", "Gokak", "Gudibande", "Gundlupet", "Gubbi", "H.D. Kote", "Hagaribommanahalli", "Haliyal", "Hanagal", "Harapanahalli", "Harihar", "Hassan", "Haveri", "Hirekerur", "Holenarasipura", "Honnavar", "Honnali", "Hoovina Hadagali", "Hosanagara", "Hoscote", "Hospete", "Hukeri", "Humnabad", "Hunsur", "Hungund", "Indi", "Jagalur", "Jamkhandi", "Jevargi", "Kadur", "Kagwad", "Kalaburagi", "Kalghatgi", "Kanakapura", "Karwar", "Karkala", "KGF", "Khanapur", "Kittur", "Kolar", "Kollegal", "Koppa", "Koppal", "Koratagere", "Kudachi", "Kudligi", "Kumta", "Kunigal", "Kupa", "Kushalnagar", "Kushtagi", "Lakshmeshwar", "Lingasugur", "Maddur", "Madhugiri", "Madikeri", "Magadi", "Malavalli", "Malur", "Mangaluru", "Mandya", "Manvi", "Moodbidri", "Muddebihal", "Mudalagi", "Mudhol", "Mudigere", "Mundargi", "Mundgod", "Mulbagal", "Mysuru", "Nagamangala", "Nanjangud", "Narasimharajapura", "Nargund", "Navalgund", "Nelamangala", "Nippani", "Pandavapura", "Pavagada", "Periyapatna", "Ponnampet", "Puttur", "Raibag", "Raichur", "Ramanagara", "Ramdurg", "Ranebennur", "Ron", "Sadalaga", "Sagar", "Sakleshpur", "Sankeshwar", "Sandur", "Sindagi", "Sindhanur", "Sirsi", "Siruguppa", "Siddapur", "Sidlaghatta", "Sira", "Somwarpet", "Soraba", "Sringeri", "Srinivaspur", "Srirangapatna", "Sullia", "Tarikere", "Thirthahalli", "Tiptur", "Tirumakudalu Narasipura", "Tumakuru", "Turuvekere", "Udupi", "Virajpet", "Vijayapura", "Yadgir", "Yaragatti", "Yellapur", "Yelburga"];
 const PRACTICE_AREAS = [
   "Criminal Law","Family Law","Property Law","Civil Law",
@@ -414,15 +203,6 @@ function formatDateTime(iso) {
   return d.toLocaleString("en-IN", { day: "numeric", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" });
 }
 
-// Section card wrapper
-function Card({ children, style }) {
-  return (
-    <div style={{
-      background:"#fff", border:"1px solid #e2e8f0", borderRadius:12,
-      boxShadow:"0 1px 4px rgba(0,0,0,.06)", overflow:"hidden", ...style
-    }}>{children}</div>
-  );
-}
 
 // ─────────────────────────────────────────────────────────────
 //  BOOKING DETAIL MODAL
@@ -610,7 +390,62 @@ function ReqDetailModal({ adv, allReqs, onClose, onStatusChange }) {
 
 
 // ── Admin Login Gate ────────────────────────────────────────
-function AdminLogin({ onLogin }) {
+// ── Theme (light / dark), remembered per browser ────────────
+const THEME_KEY = "law4u_admin_theme";
+
+function useAdminTheme() {
+  const [theme, setTheme] = useState(() => {
+    try {
+      const saved = localStorage.getItem(THEME_KEY);
+      if (saved === "dark" || saved === "light") return saved;
+    } catch { /* storage unavailable */ }
+    return window.matchMedia?.("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  });
+  useEffect(() => {
+    try { localStorage.setItem(THEME_KEY, theme); } catch { /* ignore */ }
+  }, [theme]);
+  const toggle = useCallback(() => setTheme((t) => (t === "dark" ? "light" : "dark")), []);
+  return [theme, toggle];
+}
+
+// Persisted boolean preference (rail expanded / collapsed)
+const RAIL_KEY = "law4u_admin_rail";
+
+function useStoredFlag(key, initial) {
+  const [value, setValue] = useState(() => {
+    try {
+      const saved = localStorage.getItem(key);
+      if (saved === "1" || saved === "0") return saved === "1";
+    } catch { /* storage unavailable */ }
+    return initial;
+  });
+  useEffect(() => {
+    try { localStorage.setItem(key, value ? "1" : "0"); } catch { /* ignore */ }
+  }, [key, value]);
+  const toggle = useCallback(() => setValue((v) => !v), []);
+  return [value, toggle];
+}
+
+function ThemeToggle({ theme, onToggle }) {
+  const dark = theme === "dark";
+  return (
+    <button
+      type="button"
+      className="am-theme-btn"
+      onClick={onToggle}
+      aria-label={dark ? "Switch to light theme" : "Switch to dark theme"}
+      title={dark ? "Light theme" : "Dark theme"}
+    >
+      {dark ? (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4" /><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" /></svg>
+      ) : (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" /></svg>
+      )}
+    </button>
+  );
+}
+
+function AdminLogin({ onLogin, theme, onToggleTheme }) {
   const [form, setForm] = useState({ email: "", password: "" });
   const [err, setErr]   = useState("");
   const [showPw, setShowPw] = useState(false);
@@ -631,9 +466,10 @@ function AdminLogin({ onLogin }) {
   };
 
   return (
-    <div className="am-login-page">
+    <div className={`am-login-page ${theme === "dark" ? "am-dark" : ""}`}>
+      <ThemeToggle theme={theme} onToggle={onToggleTheme} />
       <form className="am-login-card" onSubmit={handleSubmit}>
-        <div className="am-login-icon">🛡️</div>
+        <BrandLogo size={56} wordmark={false} style={{ margin: "0 auto" }} />
         <h1 className="am-login-title">Admin Console</h1>
         <p className="am-login-sub">Law4u — Advocate Management</p>
 
@@ -673,15 +509,46 @@ function AdminLogin({ onLogin }) {
 }
 
 // ── Stat card ───────────────────────────────────────────────
-function StatCard({ icon, label, value, tone }) {
+function StatCard({ icon, label, value, tone, hint }) {
   return (
     <div className={`am-stat-card ${tone || ""}`}>
-      <div className="am-stat-icon">{icon}</div>
-      <div>
+      {icon && <div className="am-stat-icon">{icon}</div>}
+      <div style={{ minWidth: 0 }}>
         <div className="am-stat-value">{value}</div>
         <div className="am-stat-label">{label}</div>
+        {hint && <div className="am-stat-hint">{hint}</div>}
       </div>
     </div>
+  );
+}
+
+// ── Icon rail (mirrors the tabs; same setTab handlers) ─────
+const RAIL_ICONS = {
+  pending:   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 8v4l3 2" /><circle cx="12" cy="12" r="9" /></svg>,
+  all:       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5" /><path d="M2.5 20a6.5 6.5 0 0 1 13 0" /><path d="M16 4.5a3.5 3.5 0 0 1 0 7" /><path d="M17 13.5a6.5 6.5 0 0 1 4.5 6.5" /></svg>,
+  messages:  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2" /><path d="M3 7l9 6 9-6" /></svg>,
+  questions: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9" /><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 .8-1 1.7" /><path d="M12 17h.01" /></svg>,
+  bookings:  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2" /><path d="M3 10h18M8 3v4M16 3v4" /></svg>,
+  requests:  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h10" /></svg>,
+  logout:    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M10 4H5v16h5M14 8l4 4-4 4M18 12H9" /></svg>,
+  collapse:  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6" /></svg>,
+  expand:    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6" /></svg>,
+};
+
+function RailButton({ id, label, tab, setTab, count }) {
+  return (
+    <button
+      type="button"
+      className={`am-rail-btn ${tab === id ? "active" : ""}`}
+      onClick={() => setTab(id)}
+      aria-label={label}
+      title={label}
+      aria-current={tab === id ? "page" : undefined}
+    >
+      {RAIL_ICONS[id]}
+      <span className="am-rail-label">{label}</span>
+      {count > 0 && <span className="am-rail-dot">{count}</span>}
+    </button>
   );
 }
 
@@ -1039,6 +906,8 @@ function QuestionDetailModal({ question, onClose }) {
 // ══════════════════════════════════════════════════════════════
 export default function AdminPage() {
   const [authed, setAuthed] = useState(false);
+  const [theme, toggleTheme] = useAdminTheme();
+  const [railOpen, toggleRail] = useStoredFlag(RAIL_KEY, false);
   const [advocates, setAdvocates] = useState([]);
   const [messages, setMessages] = useState([]);
   const [questions, setQuestions] = useState([]);
@@ -1052,10 +921,7 @@ export default function AdminPage() {
     const [bookingModal,  setBookingModal]  = useState(null);
     const [reqModal,      setReqModal]      = useState(null);
     const [, setToast]       = useState(null);
-    const [deleteTarget,  setDeleteTarget]  = useState(null);
   
-    const [editTarget,    setEditTarget]    = useState(null);
-    const [addOpen,       setAddOpen]       = useState(false);
   
   const [editing, setEditing] = useState(null);       // advocate being edited, or null
   const [adding, setAdding] = useState(false);         // add-new modal open?
@@ -1094,13 +960,15 @@ export default function AdminPage() {
       refreshAdvocates();
       refreshMessages();
       refreshQuestions();
+      setAllReqs(loadRequests());
+      setBookings(loadBookings());
     }
   }, [authed, refreshAdvocates]);
 
   // Pick up new submissions if Contact/Partners were filled out in another tab
   useEffect(() => {
     if (!authed) return;
-    const onFocus = () => { refreshAdvocates(); refreshMessages(); refreshQuestions(); };
+    const onFocus = () => { refreshAdvocates(); refreshMessages(); refreshQuestions(); setAllReqs(loadRequests()); setBookings(loadBookings()); };
     window.addEventListener("focus", onFocus);
     return () => window.removeEventListener("focus", onFocus);
   }, [authed, refreshAdvocates]);
@@ -1117,14 +985,6 @@ export default function AdminPage() {
     setAdminToken(null);
     setAuthed(false);
   };
-    // Edit save
-    const handleEditSave = useCallback(async (updated) => {
-      const list = advocates.map(a => a.id === updated.id ? updated : a);
-      setAdvocates(list);
-      writeLS(ADVOCATES_KEY, list);
-      showToast(`✅ ${updated.name} updated`);
-    }, [advocates, showToast]);
-
   const pending  = useMemo(() => advocates.filter(a => a.status === "pending"), [advocates]);
   const approved = useMemo(() => advocates.filter(a => a.status === "approved"), [advocates]);
   const unreadMessages = useMemo(() => messages.filter(m => !m.read), [messages]);
@@ -1197,28 +1057,6 @@ export default function AdminPage() {
     }
     setOpenMessage(msg);
   };
-   // Add new advocate
-    const handleAdd = useCallback((newAdv) => {
-      const list = [...advocates, newAdv];
-      setAdvocates(list);
-      writeLS(ADVOCATES_KEY, list);
-      showToast(`✅ ${newAdv.name} added successfully`);
-    }, [advocates, showToast]);
-  
-    // Delete
-    const handleDelete = useCallback((adv) => {
-      const list = advocates.filter(a => a.id !== adv.id);
-      setAdvocates(list);
-      writeLS(ADVOCATES_KEY, list);
-      // Remove their requests
-      const reqs = { ...allReqs };
-      delete reqs[adv.id];
-      saveRequests(reqs);
-      setAllReqs(reqs);
-      setDeleteTarget(null);
-      showToast(`🗑️ ${adv.name} deleted`, "error");
-    }, [advocates, allReqs, showToast]);
-  
 
   const handleConfirmDeleteMessage = () => {
     deleteMessage(deletingMsg.id);
@@ -1276,34 +1114,71 @@ export default function AdminPage() {
   };
   
 
-  if (!authed) return <AdminLogin onLogin={() => setAuthed(true)} />;
+  if (!authed) return <AdminLogin onLogin={() => setAuthed(true)} theme={theme} onToggleTheme={toggleTheme} />;
 
   return (
-    <div className="am-page">
-      <div className="am-topbar">
-        <Link to="/" className="am-logo">
-          <span style={{ color: "#2563eb", fontWeight: 800 }}>Law</span>
-          <span style={{ color: "#dc2626", fontWeight: 800 }}>4</span>
-          <span style={{ color: "#16a34a", fontWeight: 800 }}>u</span>
-          <span className="am-logo-tag">Admin</span>
+    <div className={`am-page ${theme === "dark" ? "am-dark" : ""}`}>
+      <nav className={`am-rail ${railOpen ? "am-rail-open" : ""}`} aria-label="Admin sections">
+        <Link to="/" className="am-rail-logo" aria-label="AdvocatesHub home">
+          <img className="am-rail-logo-mark" src={`${process.env.PUBLIC_URL || ""}/brand/logo-mark.svg`} alt="" />
+          <span className="am-rail-label">Advocates<b>Hub</b></span>
         </Link>
-        <button className="am-logout-btn" onClick={handleLogout}>
-          Logout ↩
+        <RailButton id="pending"   label="Pending approvals" tab={tab} setTab={setTab} count={pending.length} />
+        <RailButton id="all"       label="All advocates"     tab={tab} setTab={setTab} />
+        <RailButton id="messages"  label="Messages"          tab={tab} setTab={setTab} count={unreadMessages.length} />
+        <RailButton id="questions" label="Questions"         tab={tab} setTab={setTab} count={unreadQuestions.length} />
+        <RailButton id="bookings"  label="Client bookings"   tab={tab} setTab={setTab} />
+        <RailButton id="requests"  label="All requests"      tab={tab} setTab={setTab} />
+        <div className="am-rail-spacer" />
+        <button type="button" className="am-rail-btn am-rail-logout" onClick={handleLogout} aria-label="Logout" title="Logout">
+          {RAIL_ICONS.logout}
+          <span className="am-rail-label">Logout</span>
         </button>
+        <button
+          type="button"
+          className="am-rail-btn am-rail-toggle"
+          onClick={toggleRail}
+          aria-label={railOpen ? "Collapse sidebar" : "Expand sidebar"}
+          aria-expanded={railOpen}
+          title={railOpen ? "Collapse" : "Expand"}
+        >
+          {railOpen ? RAIL_ICONS.collapse : RAIL_ICONS.expand}
+          <span className="am-rail-label">Collapse</span>
+        </button>
+      </nav>
+
+      <div className="am-main">
+      <div className="am-topbar">
+        <div className="am-topbar-left">
+          <Link to="/" className="am-logo">
+            <BrandLogo size={30} wordmark={false} />
+            <span>Advocates<span style={{ color: "var(--adm-accent)" }}>Hub</span></span>
+            <span className="am-logo-tag">Admin console</span>
+          </Link>
+          <span className="am-live-badge">Live · API connected</span>
+        </div>
+        <div className="am-topbar-right">
+          <ThemeToggle theme={theme} onToggle={toggleTheme} />
+          <div className="am-admin-avatar" aria-label="Administrator">AD</div>
+          <button className="am-logout-btn" onClick={handleLogout}>
+            Logout ↩
+          </button>
+        </div>
       </div>
 
       <div className="am-container">
 
         {/* ── Stats ── */}
         <div className="am-stats-row">
-          <StatCard icon="⚖️" label="Total Advocates" value={advocates.length} />
-          <StatCard icon="⏳" label="Pending Approval" value={pending.length} tone="am-tone-warn" />
-          <StatCard icon="✅" label="Approved" value={approved.length} tone="am-tone-good" />
-          <StatCard icon="✉️" label="Unread Messages" value={unreadMessages.length} tone="am-tone-warn" />
-          <StatCard icon="❓" label="New Questions" value={unreadQuestions.length} tone="am-tone-warn" />
+          <StatCard label="Total advocates"  value={advocates.length}      hint="All registered accounts" tone="am-tone-navy" />
+          <StatCard label="Pending approval" value={pending.length}        hint="Needs your action" tone="am-tone-warn" />
+          <StatCard label="Approved"         value={approved.length}       hint={advocates.length ? `${Math.round((approved.length / advocates.length) * 100)}% of directory` : "—"} tone="am-tone-good" />
+          <StatCard label="Unread messages"  value={unreadMessages.length} hint="Contact & partner forms" tone="am-tone-blue" />
+          <StatCard label="New questions"    value={unreadQuestions.length} hint="Awaiting an answer" tone="am-tone-violet" />
         </div>
 
         {/* ── Tabs ── */}
+        <div className="am-panel">
         <div className="am-tabs">
           <button className={`am-tab ${tab === "pending" ? "active" : ""}`} onClick={() => setTab("pending")}>
             Pending Approvals {pending.length > 0 && <span className="am-tab-badge">{pending.length}</span>}
@@ -1416,91 +1291,68 @@ export default function AdminPage() {
               BOOKINGS TAB — who booked whom
               ═══════════════════════════════════════════════ */}
           {tab === "bookings" && (
-            <div style={{ maxWidth:1100,margin:"0 auto",display:"flex",flexDirection:"column",gap:14 }}>
-              <div style={{ display:"flex",alignItems:"center",justifyContent:"space-between",flexWrap:"wrap",gap:10 }}>
-                <div style={{ fontWeight:800,fontSize:18 }}>
-                  📋 Client Bookings
-                  <span style={{ marginLeft:10,background:"#6366f1",color:"#fff",fontSize:13,
-                    fontWeight:800,padding:"2px 12px",borderRadius:20 }}>
-                    {Object.keys(bookings).length} total
-                  </span>
-                </div>
-                <input placeholder="🔍 Search client or advocate…" value={bookSearch}
-                  onChange={e=>setBookSearch(e.target.value)}
-                  style={{ height:36,border:"1.5px solid #e2e8f0",borderRadius:9,padding:"0 12px",
-                    fontSize:13,fontFamily:"inherit",outline:"none",background:"#fff",minWidth:220 }}/>
+            <div className="am-section am-bk">
+              <div className="am-bk-head">
+                <h2 className="am-bk-title">
+                  Client bookings
+                  <span className="am-count-pill">{Object.keys(bookings).length} total</span>
+                </h2>
+                <input className="am-search am-bk-search" placeholder="Search client or advocate…" value={bookSearch}
+                  onChange={e=>setBookSearch(e.target.value)} />
               </div>
 
               {/* Summary stats */}
-              <div style={{ display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(150px,1fr))",gap:12 }}>
-                <StatCard icon="📋" label="Total Bookings"    value={Object.keys(bookings).length}                              color="#6366f1" />
-                <StatCard icon="✅" label="Accepted"          value={Object.values(bookings).filter(b=>b.status==="accepted").length} color="#22c55e" />
-                <StatCard icon="📂" label="Cases in Progress" value={Object.values(bookings).filter(b=>b.caseStage==="Case Progress").length} color="#f59e0b" />
-                <StatCard icon="🏁" label="Cases Closed"      value={Object.values(bookings).filter(b=>b.caseStage==="Close Case").length}   color="#0891b2" />
+              <div className="am-mini-stats">
+                <StatCard label="Total bookings"    value={Object.keys(bookings).length} tone="am-tone-navy" />
+                <StatCard label="Accepted"          value={Object.values(bookings).filter(b=>b.status==="accepted").length} tone="am-tone-good" />
+                <StatCard label="Cases in progress" value={Object.values(bookings).filter(b=>b.caseStage==="Case Progress").length} tone="am-tone-warn" />
+                <StatCard label="Cases closed"      value={Object.values(bookings).filter(b=>b.caseStage==="Close Case").length} tone="am-tone-blue" />
               </div>
 
               {filteredBookings.length === 0 ? (
-                <Card>
-                  <div style={{ textAlign:"center",padding:"48px",color:"#94a3b8",display:"flex",flexDirection:"column",alignItems:"center",gap:10 }}>
-                    <span style={{ fontSize:44 }}>📋</span>
-                    <div style={{ fontSize:15,fontWeight:600,color:"#475569" }}>
-                      {bookSearch ? `No bookings matching "${bookSearch}"` : "No bookings yet"}
-                    </div>
-                    <div style={{ fontSize:13 }}>When a client's request is accepted, the booking appears here.</div>
+                <div className="am-empty am-empty-rich">
+                  <div className="am-empty-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2" /><path d="M3 10h18M8 3v4M16 3v4" /></svg>
                   </div>
-                </Card>
+                  <div className="am-empty-title">{bookSearch ? `No bookings matching "${bookSearch}"` : "No bookings yet"}</div>
+                  <div>When a client&rsquo;s request is accepted, the booking appears here.</div>
+                </div>
               ) : (
-                <div style={{ display:"flex",flexDirection:"column",gap:10 }}>
+                <div className="am-list">
                   {filteredBookings.map((b,i) => (
-                    <div key={i} style={{
-                      background:"#fff",border:"1px solid #e2e8f0",borderRadius:11,
-                      padding:"14px 18px",display:"flex",alignItems:"center",gap:14,
-                      boxShadow:"0 1px 4px rgba(0,0,0,.06)",transition:"box-shadow .15s",
-                      flexWrap:"wrap",
-                    }}
-                      onMouseEnter={e=>e.currentTarget.style.boxShadow="0 4px 16px rgba(0,0,0,.10)"}
-                      onMouseLeave={e=>e.currentTarget.style.boxShadow="0 1px 4px rgba(0,0,0,.06)"}>
-
+                    <div key={i} className="am-row am-bk-row">
                       {/* Client side */}
-                      <div style={{ display:"flex",alignItems:"center",gap:10,minWidth:160 }}>
+                      <div className="am-bk-party">
                         <Avi name={b.clientName} size={42} />
-                        <div>
-                          <div style={{ fontWeight:700,fontSize:13.5 }}>{b.clientName}</div>
-                          <div style={{ fontSize:11.5,color:"#94a3b8" }}>Client</div>
-                          {b.clientPhone && <div style={{ fontSize:11.5,color:"#64748b" }}>📱 {b.clientPhone}</div>}
+                        <div className="am-bk-party-text">
+                          <div className="am-row-name">{b.clientName}</div>
+                          <div className="am-row-sub">Client</div>
+                          {b.clientPhone && <div className="am-row-contact">{b.clientPhone}</div>}
                         </div>
                       </div>
 
-                      {/* Arrow */}
-                      <div style={{ fontSize:20,color:"#94a3b8",flexShrink:0 }}>→</div>
+                      <div className="am-bk-arrow" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+                      </div>
 
                       {/* Advocate side */}
-                      <div style={{ display:"flex",alignItems:"center",gap:10,flex:1,minWidth:160 }}>
+                      <div className="am-bk-party am-bk-party-grow">
                         <Avi name={b.advocateName} color={colorFor(b.advocateId)} size={42} />
-                        <div>
-                          <div style={{ fontWeight:700,fontSize:13.5 }}>{b.advocateName}</div>
-                          <div style={{ fontSize:11.5,color:"#94a3b8" }}>Advocate</div>
-                          {b.advocateSpec && <div style={{ fontSize:11.5,color:"#64748b" }}>{b.advocateSpec}</div>}
+                        <div className="am-bk-party-text">
+                          <div className="am-row-name">{b.advocateName}</div>
+                          <div className="am-row-sub">Advocate</div>
+                          {b.advocateSpec && <div className="am-row-contact">{b.advocateSpec}</div>}
                         </div>
                       </div>
 
                       {/* Status & stage */}
-                      <div style={{ display:"flex",flexDirection:"column",gap:5,alignItems:"flex-start" }}>
+                      <div className="am-bk-status">
                         <SBadge status={b.status} />
-                        <span style={{ background:"#eff6ff",color:"#1d4ed8",fontSize:11,fontWeight:700,
-                          padding:"2px 9px",borderRadius:20 }}>
-                          📂 {b.caseStage||"Start Case"}
-                        </span>
-                        <span style={{ fontSize:11.5,color:"#94a3b8" }}>{fmtDate(b.acceptedAt)}</span>
+                        <span className="am-stage-pill">{b.caseStage||"Start Case"}</span>
+                        <span className="am-msg-date">{fmtDate(b.acceptedAt)}</span>
                       </div>
 
-                      {/* Details btn */}
-                      <button onClick={()=>setBookingModal(b)}
-                        style={{ background:"#ede9fe",color:"#6d28d9",border:"none",borderRadius:8,
-                          padding:"7px 16px",fontSize:12.5,fontWeight:700,cursor:"pointer",
-                          fontFamily:"inherit",flexShrink:0,whiteSpace:"nowrap" }}>
-                        📋 View Details
-                      </button>
+                      <button className="am-btn-edit" onClick={()=>setBookingModal(b)}>View details</button>
                     </div>
                   ))}
                 </div>
@@ -1512,15 +1364,17 @@ export default function AdminPage() {
               ALL REQUESTS TAB
               ═══════════════════════════════════════════════ */}
           {tab === "requests" && (
-            <div style={{ maxWidth:1100,margin:"0 auto",display:"flex",flexDirection:"column",gap:14 }}>
-              <div style={{ fontWeight:800,fontSize:18 }}>📥 All Client Requests</div>
+            <div className="am-section am-bk">
+              <div className="am-bk-head">
+                <h2 className="am-bk-title">All client requests</h2>
+              </div>
 
               {/* Global stats */}
-              <div style={{ display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(150px,1fr))",gap:12 }}>
-                <StatCard icon="📥" label="Total Requests" value={dashStats.totalReqs} color="#6366f1" />
-                <StatCard icon="✅" label="Accepted"       value={dashStats.accReqs}   color="#22c55e" />
-                <StatCard icon="⏳" label="Pending"        value={dashStats.penReqs}   color="#f59e0b" />
-                <StatCard icon="❌" label="Declined"       value={dashStats.decReqs}   color="#ef4444" />
+              <div className="am-mini-stats">
+                <StatCard label="Total requests" value={dashStats.totalReqs} tone="am-tone-navy" />
+                <StatCard label="Accepted"       value={dashStats.accReqs} tone="am-tone-good" />
+                <StatCard label="Pending"        value={dashStats.penReqs} tone="am-tone-warn" />
+                <StatCard label="Declined"       value={dashStats.decReqs} tone="am-tone-bad" />
               </div>
 
               {/* Per-advocate sections */}
@@ -1529,72 +1383,55 @@ export default function AdminPage() {
                 if (list.length === 0) return null;
                 const stats = getReqStats(adv.id, allReqs);
                 return (
-                  <Card key={adv.id}>
+                  <div key={adv.id} className="am-req-card">
                     {/* Header */}
-                    <div style={{ display:"flex",alignItems:"center",gap:12,
-                      padding:"14px 18px",borderBottom:"1px solid #e2e8f0",
-                      background:"#f8fafc",flexWrap:"wrap" }}>
+                    <div className="am-req-head">
                       <Avi name={adv.name} color={colorFor(adv.id)} size={40} src={adv.avatar||adv.image} />
-                      <div style={{ flex:1,minWidth:160 }}>
-                        <div style={{ fontWeight:700,fontSize:14 }}>{adv.name}</div>
-                        <div style={{ fontSize:12,color:"#64748b" }}>{adv.speciality||adv.practiceArea} · {adv.city||adv.location}</div>
+                      <div className="am-req-head-text">
+                        <div className="am-row-name">{adv.name}</div>
+                        <div className="am-row-sub">{adv.speciality||adv.practiceArea} · {adv.city||adv.location}</div>
                         <ReqStatsBar stats={stats} />
                       </div>
-                      <button onClick={()=>setReqModal(adv)}
-                        style={{ background:"#2563eb",color:"#fff",border:"none",borderRadius:8,
-                          padding:"7px 16px",fontSize:12.5,fontWeight:700,cursor:"pointer",fontFamily:"inherit" }}>
-                        Manage Requests →
-                      </button>
+                      <button className="am-btn-primary am-btn-sm" onClick={()=>setReqModal(adv)}>Manage requests →</button>
                     </div>
 
                     {/* Request list */}
-                    <div style={{ padding:"10px 16px",display:"flex",flexDirection:"column",gap:8 }}>
+                    <div className="am-req-list">
                       {list.slice(0,3).map((req,i)=>(
-                        <div key={i} style={{ display:"flex",alignItems:"center",gap:10,
-                          padding:"9px 12px",background:"#fafbff",border:"1px solid #e2e8f0",
-                          borderRadius:8,flexWrap:"wrap" }}>
+                        <div key={i} className="am-req-item">
                           <Avi name={req.clientName} size={30} />
-                          <div style={{ flex:1,minWidth:120 }}>
-                            <div style={{ fontWeight:600,fontSize:13 }}>{req.clientName}</div>
-                            <div style={{ fontSize:11.5,color:"#94a3b8" }}>{fmtDate(req.requestedAt)}</div>
-                            {req.message && <div style={{ fontSize:12,color:"#475569",marginTop:2 }}>{req.message.slice(0,60)}{req.message.length>60?"…":""}</div>}
+                          <div className="am-req-item-text">
+                            <div className="am-req-item-name">{req.clientName}</div>
+                            <div className="am-msg-date">{fmtDate(req.requestedAt)}</div>
+                            {req.message && <div className="am-req-item-msg">{req.message.slice(0,60)}{req.message.length>60?"…":""}</div>}
                           </div>
                           <SBadge status={req.status} />
                           {req.status === "pending" && (
-                            <div style={{ display:"flex",gap:6 }}>
-                              <button onClick={()=>handleReqStatusChange(adv.id,req,"accepted")}
-                                style={{ background:"#16a34a",color:"#fff",border:"none",borderRadius:7,
-                                  padding:"5px 12px",fontSize:11.5,fontWeight:700,cursor:"pointer",fontFamily:"inherit" }}>
-                                ✅ Accept
-                              </button>
-                              <button onClick={()=>handleReqStatusChange(adv.id,req,"declined")}
-                                style={{ background:"#fee2e2",color:"#dc2626",border:"1px solid #fecaca",
-                                  borderRadius:7,padding:"5px 12px",fontSize:11.5,fontWeight:700,cursor:"pointer",fontFamily:"inherit" }}>
-                                ❌ Decline
-                              </button>
+                            <div className="am-row-actions">
+                              <button className="am-btn-approve" onClick={()=>handleReqStatusChange(adv.id,req,"accepted")}>✓ Accept</button>
+                              <button className="am-btn-reject" onClick={()=>handleReqStatusChange(adv.id,req,"declined")}>✕ Decline</button>
                             </div>
                           )}
                         </div>
                       ))}
                       {list.length > 3 && (
-                        <button onClick={()=>setReqModal(adv)}
-                          style={{ background:"none",border:"none",color:"#2563eb",fontSize:12.5,
-                            fontWeight:600,cursor:"pointer",fontFamily:"inherit",textAlign:"left",padding:"4px 0" }}>
+                        <button className="am-link-btn" onClick={()=>setReqModal(adv)}>
                           + {list.length-3} more requests — View all →
                         </button>
                       )}
                     </div>
-                  </Card>
+                  </div>
                 );
               })}
 
               {dashStats.totalReqs === 0 && (
-                <Card>
-                  <div style={{ textAlign:"center",padding:"48px",color:"#94a3b8",display:"flex",flexDirection:"column",alignItems:"center",gap:10 }}>
-                    <span style={{ fontSize:44 }}>📥</span>
-                    <div style={{ fontSize:15,fontWeight:600,color:"#475569" }}>No requests yet</div>
+                <div className="am-empty am-empty-rich">
+                  <div className="am-empty-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h10" /></svg>
                   </div>
-                </Card>
+                  <div className="am-empty-title">No requests yet</div>
+                  <div>Consultation requests sent from advocate profiles will appear here.</div>
+                </div>
               )}
             </div>
           )}
@@ -1613,7 +1450,9 @@ export default function AdminPage() {
           </div>
         )}
 
-      </div>
+        </div>{/* /am-panel */}
+      </div>{/* /am-container */}
+      </div>{/* /am-main */}
 
       {adding && (
         <AdvocateFormModal
@@ -1665,16 +1504,6 @@ export default function AdminPage() {
           onCancel={() => setDeletingQuestion(null)}
           onConfirm={handleConfirmDeleteQuestion}
         />
-      )}
-       {/* ── MODALS ── */}
-      {editTarget && (
-        <EditModal adv={editTarget} onSave={handleEditSave} onClose={() => setEditTarget(null)} />
-      )}
-      {deleteTarget && (
-        <DeleteModal adv={deleteTarget} onConfirm={() => handleDelete(deleteTarget)} onCancel={() => setDeleteTarget(null)} />
-      )}
-      {addOpen && (
-        <AddAdvocateModal onAdd={handleAdd} onClose={() => setAddOpen(false)} />
       )}
       {reqModal && (
         <ReqDetailModal

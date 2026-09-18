@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>AdvocatesHub logo</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; font-family: Manrope, "Segoe UI", system-ui, sans-serif; background: #eef1f4; color: #111827; }
+  .sheet { width: 1200px; padding: 40px; box-sizing: border-box; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .card { background: #fff; border: 1px solid #dfe4ea; border-radius: 16px; padding: 28px; display: flex; flex-direction: column; gap: 18px; }
+  .card.dark { background: #0b1220; border-color: #253049; color: #e5e7eb; }
+  .label { font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #64748b; }
+  .dark .label { color: #7c879c; }
+  .row { display: flex; align-items: center; gap: 28px; flex-wrap: wrap; }
+  .word { font-weight: 800; letter-spacing: -0.02em; }
+  .word b { color: #0f766e; font-weight: 800; }
+  .dark .word { color: #fff; } .dark .word b { color: #5eead4; }
+  .lockup { display: flex; align-items: center; gap: 16px; }
+  .fav { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px 6px 8px; border-radius: 8px; background: #f1f5f9; font-size: 13px; font-weight: 600; color: #334155; }
+  .dark .fav { background: #1c2740; color: #cbd5e1; }
+</style>
+</head>
+<body>
+<div class="sheet">
+  <div class="card" style="grid-column: 1 / -1;">
+    <div class="label">Primary lockup</div>
+    <div class="lockup"><img src="logo-mark.svg" width="72" height="72" alt=""><span class="word" style="font-size:44px">Advocates<b>Hub</b></span></div>
+  </div>
+  <div class="card">
+    <div class="label">Mark at sizes</div>
+    <div class="row">
+      <img src="logo-mark.svg" width="128" height="128" alt="">
+      <img src="logo-mark.svg" width="64" height="64" alt="">
+      <img src="logo-mark.svg" width="40" height="40" alt="">
+      <img src="logo-mark.svg" width="24" height="24" alt="">
+      <span class="fav"><img src="logo-mark.svg" width="16" height="16" alt="">Advocates Hub</span>
+    </div>
+  </div>
+  <div class="card dark">
+    <div class="label">On dark</div>
+    <div class="row">
+      <img src="logo-mark.svg" width="64" height="64" alt="">
+      <span class="word" style="font-size:28px">Advocates<b>Hub</b></span>
+      <span class="fav"><img src="logo-mark.svg" width="16" height="16" alt="">Advocates Hub</span>
+    </div>
+  </div>
+  <div class="card">
+    <div class="label">Mono / single colour</div>
+    <div class="row">
+      <svg viewBox="0 0 64 64" width="64" height="64"><rect width="64" height="64" rx="16" fill="#0f172a"/><g fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 21h36"/><path d="M32 21v25"/><path d="M22 48h20"/><path d="M18 21l-5.5 12M18 21l5.5 12"/><path d="M46 21l-5.5 12M46 21l5.5 12"/><path d="M10.5 33.5a7.5 7.5 0 0 0 15 0z"/><path d="M38.5 33.5a7.5 7.5 0 0 0 15 0z"/></g><circle cx="32" cy="21" r="4" fill="#fff"/><circle cx="32" cy="21" r="1.8" fill="#0f172a"/></svg>
+      <svg viewBox="0 0 64 64" width="64" height="64"><g fill="none" stroke="#0f766e" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 21h36"/><path d="M32 21v25"/><path d="M22 48h20"/><path d="M18 21l-5.5 12M18 21l5.5 12"/><path d="M46 21l-5.5 12M46 21l5.5 12"/><path d="M10.5 33.5a7.5 7.5 0 0 0 15 0z"/><path d="M38.5 33.5a7.5 7.5 0 0 0 15 0z"/></g><circle cx="32" cy="21" r="4" fill="#0f766e"/><circle cx="32" cy="21" r="1.8" fill="#fff"/></svg>
+      <svg viewBox="0 0 64 64" width="64" height="64"><rect width="64" height="64" rx="16" fill="#fff" stroke="#dfe4ea"/><g fill="none" stroke="#0f172a" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 21h36"/><path d="M32 21v25"/><path d="M22 48h20"/><path d="M18 21l-5.5 12M18 21l5.5 12"/><path d="M46 21l-5.5 12M46 21l5.5 12"/><path d="M10.5 33.5a7.5 7.5 0 0 0 15 0z"/><path d="M38.5 33.5a7.5 7.5 0 0 0 15 0z"/></g><circle cx="32" cy="21" r="4" fill="#0f766e"/><circle cx="32" cy="21" r="1.8" fill="#fff"/></svg>
+    </div>
+  </div>
+  <div class="card">
+    <div class="label">In context — admin rail &amp; navbar</div>
+    <div class="row">
+      <div style="width:72px;height:120px;border-radius:12px;background:linear-gradient(180deg,#0b1220,#0f172a 45%,#0d2b2c);display:flex;justify-content:center;padding-top:16px;box-sizing:border-box"><img src="logo-mark.svg" width="40" height="40" alt=""></div>
+      <div style="display:flex;align-items:center;gap:10px;padding:12px 18px;border:1px solid #dfe4ea;border-radius:10px;background:#fff"><img src="logo-mark.svg" width="32" height="32" alt=""><span class="word" style="font-size:20px">Advocates<b>Hub</b></span><span style="margin-left:18px;font-size:13px;color:#475569;font-weight:600">Home · Find a Lawyer · Legal Advice</span></div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

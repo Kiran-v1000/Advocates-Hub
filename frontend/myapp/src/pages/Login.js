@@ -12,6 +12,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { loginAdvocate } from "../data/Advocatesstore";
+import BrandLogo from "../components/BrandLogo";
 import "./Login.css";
 
 // Key used to remember who's logged in (read by AdvocateDashboard.js)
@@ -143,9 +144,7 @@ export default function Login() {
         {/* Header */}
         <div className="lg-header">
           <Link to="/" className="lg-logo">
-            <span style={{ color:"#2563eb", fontWeight:800 }}>Law</span>
-            <span style={{ color:"#dc2626", fontWeight:800 }}>4</span>
-            <span style={{ color:"#16a34a", fontWeight:800 }}>u</span>
+            <BrandLogo size={36} />
           </Link>
           <h1 className="lg-title">Advocate Login</h1>
           <p className="lg-subtitle">Sign in to manage your practice on Law4u</p>

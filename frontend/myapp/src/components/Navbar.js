@@ -2,6 +2,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import "./Navbar.css";
 import { Link, useNavigate } from "react-router-dom";
+import BrandLogo from "./BrandLogo";
 
 const LAWYER_CATEGORIES = [
   { icon: "👨‍👩‍👧", label: "Person / Family", desc: "Divorce, custody, marriage, adoption", path: "/find-lawyer?cat=family" },
@@ -93,8 +94,7 @@ export default function Navbar() {
       <div className="lw-nav-inner">
         {/* Logo */}
         <Link to="/" className="lw-logo" onClick={handleLinkClick}>
-          <span className="lw-logo-law">Advocates</span>
-          <span className="lw-logo-4">Hub</span>
+          <BrandLogo size={34} />
           <span className="lw-logo-tagline">Best Legal Platform</span>
         </Link>
 

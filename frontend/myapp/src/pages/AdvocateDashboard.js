@@ -6,6 +6,7 @@ import { useState, useEffect, useMemo } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import "./AdvocateDashboard.css";
 import { getAdvocateById, logoutAdvocate } from "../data/Advocatesstore";
+import BrandLogo from "../components/BrandLogo";
 import Chatbot from "./Chatbot";
 
 
@@ -44,26 +45,24 @@ function formatDate(iso) {
   return d.toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
 }
 
-function StatBox({ icon, label, value }) {
-  return (
-    <div className="ad-stat">
-      <div className="ad-stat-icon">{icon}</div>
-      <div>
-        <div className="ad-stat-value">{value}</div>
-        <div className="ad-stat-label">{label}</div>
-      </div>
-    </div>
-  );
-}
+// Profile fields the store defines that clients actually see; used for the completeness tile.
+const PROFILE_FIELDS = [
+  { key: "avatar",    label: "Profile photo" },
+  { key: "bio",       label: "Bio" },
+  { key: "barId",     label: "Bar Council ID" },
+  { key: "court",     label: "Court" },
+  { key: "languages", label: "Languages" },
+];
 
+// `group` only affects the desktop sidebar headings; the mobile drawer ignores it.
 const NAV_ITEMS = [
-  { key: "dashboard", icon: "🏠", label: "Dashboard" },
-  { key: "requests",  icon: "📥", label: "Client Requests" },
-  { key: "sessions",  icon: "📅", label: "My Sessions" },
-  { key: "cases",     icon: "⚖️", label: "My Cases" },
-  { key: "earnings",  icon: "💰", label: "Earnings" },
-  { key: "profile",   icon: "👤", label: "My Profile" },
-  { key: "settings",  icon: "⚙️", label: "Settings" },
+  { key: "dashboard", icon: "🏠", label: "Dashboard",       group: "Work" },
+  { key: "requests",  icon: "📥", label: "Client Requests", group: "Work" },
+  { key: "sessions",  icon: "📅", label: "My Sessions",     group: "Work" },
+  { key: "cases",     icon: "⚖️", label: "My Cases",        group: "Work" },
+  { key: "earnings",  icon: "💰", label: "Earnings",        group: "Work" },
+  { key: "profile",   icon: "👤", label: "My Profile",      group: "Account" },
+  { key: "settings",  icon: "⚙️", label: "Settings",        group: "Account" },
 ];
 
 function StatusBadge({ status }) {
@@ -287,6 +286,10 @@ export default function AdvocateDashboard() {
     );
   }
 
+  // Dashboard-tile helpers. `availability` is free text in the store, so match on the word.
+  const isAvailable = /available/i.test(advocate.availability || "") && !/not/i.test(advocate.availability || "");
+  const profileDone = PROFILE_FIELDS.filter(f => Boolean(advocate[f.key])).length;
+
   const filterOptions = [
     { key: "all", label: "All Requests", icon: "📋" },
     { key: "pending", label: "Pending", icon: "⏳" },
@@ -304,8 +307,7 @@ export default function AdvocateDashboard() {
             ☰
           </button>
           <Link to="/" className="ad-logo">
-            <span style={{ color: "#2563eb", fontWeight: 800 }}>Advocates </span>
-            <span style={{ color: "#dc2626", fontWeight: 800 }}>Hub</span>
+            <BrandLogo size={32} />
           </Link>
         </div>
         <div className="ad-topbar-actions">
@@ -351,31 +353,38 @@ export default function AdvocateDashboard() {
         
         {/* Left Sidebar Navigation (Desktop) */}
         <aside className="ad-sidebar-nav">
+          <nav className="ad-sidebar-menu">
+            {NAV_ITEMS.map((item, index) => (
+              <div key={item.key} className="ad-sidebar-item">
+                {(index === 0 || NAV_ITEMS[index - 1].group !== item.group) && (
+                  <div className="ad-sidebar-group">{item.group}</div>
+                )}
+                <button
+                  onClick={() => setActiveNav(item.key)}
+                  className={`ad-sidebar-link ${activeNav === item.key ? "active" : ""}`}
+                >
+                  <span className="ad-link-icon">{item.icon}</span>
+                  <span className="ad-link-label">{item.label}</span>
+                  {item.key === "requests" && pendingCount > 0 && (
+                    <span className="ad-badge-count">{pendingCount}</span>
+                  )}
+                </button>
+              </div>
+            ))}
+          </nav>
+
           <div className="ad-sidebar-user-brief">
             <div className="ad-sidebar-avatar">
               {advocate.name.replace("Adv. ", "").split(" ").map(n => n[0]).join("")}
             </div>
-            <div>
+            <div className="ad-sidebar-user-text">
               <div className="ad-sidebar-name">{advocate.name}</div>
-              <div className="ad-sidebar-role">Advocate Portal</div>
+              <div className="ad-sidebar-role">
+                <i className={`ad-sidebar-dot ${isAvailable ? "on" : ""}`} />
+                {advocate.availability}
+              </div>
             </div>
           </div>
-
-          <nav className="ad-sidebar-menu">
-            {NAV_ITEMS.map(item => (
-              <button
-                key={item.key}
-                onClick={() => setActiveNav(item.key)}
-                className={`ad-sidebar-link ${activeNav === item.key ? "active" : ""}`}
-              >
-                <span className="ad-link-icon">{item.icon}</span>
-                <span className="ad-link-label">{item.label}</span>
-                {item.key === "requests" && pendingCount > 0 && (
-                  <span className="ad-badge-count">{pendingCount}</span>
-                )}
-              </button>
-            ))}
-          </nav>
         </aside>
 
         {/* Main Content Area */}
@@ -384,30 +393,124 @@ export default function AdvocateDashboard() {
           {/* VIEW: DASHBOARD */}
           {activeNav === "dashboard" && (
             <div className="ad-fade-in">
-              <div className="ad-card ad-profile-card">
-                <div className="ad-profile-top">
-                  <div className="ad-avatar" style={{ background: advocate.avatar ? "transparent" : "#eff6ff" }}>
-                    {advocate.avatar ? (
-                      <img src={advocate.avatar} alt={advocate.name} className="ad-avatar-img" />
-                    ) : (
-                      advocate.name.replace("Adv. ", "").split(" ").map(n => n[0]).join("")
-                    )}
+              <div className="ad-bento">
+                {/* Identity tile */}
+                <div className="ad-tile ad-tile-id">
+                  <div className="ad-tile-id-top">
+                    <div className="ad-avatar ad-tile-avatar" style={{ background: advocate.avatar ? "transparent" : "#14b8a6" }}>
+                      {advocate.avatar ? (
+                        <img src={advocate.avatar} alt={advocate.name} className="ad-avatar-img" />
+                      ) : (
+                        advocate.name.replace("Adv. ", "").split(" ").map(n => n[0]).join("")
+                      )}
+                    </div>
+                    <div className="ad-rating-pill ad-tile-rating">⭐ {advocate.rating}</div>
                   </div>
-                  <div className="ad-profile-main">
-                    <h1 className="ad-profile-name">{advocate.name}</h1>
-                    <p className="ad-profile-spec">{advocate.speciality} · {advocate.city}</p>
-                    <div className="ad-availability">🟢 {advocate.availability}</div>
+                  <h1 className="ad-tile-name">{advocate.name}</h1>
+                  <p className="ad-tile-sub">{advocate.speciality} · {advocate.city}</p>
+                  {advocate.bio && advocate.bio.length > 3 && <p className="ad-tile-bio">{advocate.bio}</p>}
+                  <div className="ad-tile-id-bottom">
+                    <span className={`ad-avail-pill ${isAvailable ? "on" : ""}`}>
+                      <i /> {advocate.availability}
+                    </span>
+                    {!isAvailable && <span className="ad-tile-hint">Clients can't book you while unavailable</span>}
                   </div>
-                  <div className="ad-rating-pill">⭐ {advocate.rating}</div>
                 </div>
 
-                <p className="ad-bio">{advocate.bio}</p>
+                <div className="ad-tile"><div className="ad-tile-label">Cases handled</div><div className="ad-tile-value">{advocate.cases}</div></div>
+                <div className="ad-tile"><div className="ad-tile-label">Experience</div><div className="ad-tile-value">{advocate.experience}</div></div>
+                <div className="ad-tile"><div className="ad-tile-label">Fee</div><div className="ad-tile-value">{advocate.fee} <small>/ session</small></div></div>
+                <div className="ad-tile ad-tile-click" onClick={() => setActiveNav("requests")} role="button" tabIndex={0}>
+                  <div className="ad-tile-label">Pending requests</div>
+                  <div className={`ad-tile-value ${pendingCount > 0 ? "warn" : ""}`}>{pendingCount}</div>
+                </div>
+                <div className="ad-tile ad-tile-click" onClick={() => setActiveNav("cases")} role="button" tabIndex={0}>
+                  <div className="ad-tile-label">Accepted clients</div>
+                  <div className="ad-tile-value">{acceptedRequests.length}</div>
+                </div>
+                <div className="ad-tile"><div className="ad-tile-label">Rating</div><div className="ad-tile-value">{Number(advocate.rating) > 0 ? advocate.rating : "—"} <small>{Number(advocate.rating) > 0 ? "" : "no reviews"}</small></div></div>
 
-                <div className="ad-stats-row">
-                  <StatBox icon="📁" label="Cases Handled" value={advocate.cases} />
-                  <StatBox icon="⏳" label="Experience" value={advocate.experience} />
-                  <StatBox icon="💰" label="Fee" value={advocate.fee} />
-                  <StatBox icon="📨" label="Pending Requests" value={pendingCount} />
+                {/* Upcoming sessions: latest accepted requests */}
+                <div className="ad-tile ad-tile-wide ad-tile-tall">
+                  <div className="ad-tile-head">
+                    <span className="ad-tile-label">Upcoming sessions</span>
+                    {acceptedRequests.length > 0 && (
+                      <button className="ad-tile-link" onClick={() => setActiveNav("sessions")}>View all</button>
+                    )}
+                  </div>
+                  {acceptedRequests.length === 0 ? (
+                    <div className="ad-tile-empty">
+                      No sessions yet. Accept a client request and it appears here with the client, date and note.
+                    </div>
+                  ) : (
+                    <ul className="ad-tile-list">
+                      {acceptedRequests.slice(0, 3).map(req => {
+                        const override = earningsOverrides[req.id] || {};
+                        return (
+                          <li key={req.id}>
+                            <div>
+                              <b>{override.clientName || req.clientName}</b>
+                              <span>{req.clientCity ? `${req.clientCity} · ` : ""}{formatDate(override.requestedAt || req.requestedAt)}</span>
+                            </div>
+                            <span className={`ad-stage-pill ${(req.caseStage || "Start Case").toLowerCase().replace(" ", "-")}`}>
+                              {req.caseStage || "Start Case"}
+                            </span>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  )}
+                </div>
+
+                {/* Profile completeness, derived from the fields the store defines */}
+                <div className="ad-tile ad-tile-tall ad-tile-span2">
+                  <div className="ad-tile-head">
+                    <span className="ad-tile-label">Finish your profile</span>
+                    <span className="ad-tile-meta">{profileDone}/{PROFILE_FIELDS.length}</span>
+                  </div>
+                  <ul className="ad-tile-checks">
+                    {PROFILE_FIELDS.map(f => {
+                      const ok = Boolean(advocate[f.key]);
+                      return (
+                        <li key={f.key}>
+                          <span>{f.label}</span>
+                          <b className={ok ? "ok" : "todo"}>{ok ? "Done" : "Add"}</b>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                  <div className="ad-tile-progress"><div style={{ width: `${(profileDone / PROFILE_FIELDS.length) * 100}%` }} /></div>
+                </div>
+
+                {/* Latest pending requests */}
+                <div className="ad-tile ad-tile-wide">
+                  <div className="ad-tile-head">
+                    <span className="ad-tile-label">Recent requests</span>
+                    <button className="ad-tile-link" onClick={() => setActiveNav("requests")}>Open inbox</button>
+                  </div>
+                  {pendingCount === 0 ? (
+                    <div className="ad-tile-empty">Nothing waiting. New client requests will show here first.</div>
+                  ) : (
+                    <ul className="ad-tile-list">
+                      {requests.filter(r => r.status === "pending").slice(0, 3).map(req => (
+                        <li key={req.id}>
+                          <div>
+                            <b>{req.clientName}</b>
+                            <span>{req.clientCity ? `${req.clientCity} · ` : ""}{formatDate(req.requestedAt)}</span>
+                          </div>
+                          <StatusBadge status={req.status} />
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+
+                <div className="ad-tile ad-tile-span2">
+                  <div className="ad-tile-label">Quick actions</div>
+                  <div className="ad-tile-actions">
+                    <button className="ad-btn-secondary" onClick={() => setActiveNav("profile")}>Edit profile</button>
+                    <button className="ad-btn-secondary" onClick={() => setActiveNav("earnings")}>Earnings</button>
+                  </div>
                 </div>
               </div>
             </div>

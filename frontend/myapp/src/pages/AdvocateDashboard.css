@@ -90,12 +90,12 @@
 /* Sidebar Navigation */
 .ad-sidebar-nav {
   width: 260px;
-  background: #ffffff;
-  border-right: 1px solid #e2e8f0;
-  padding: 24px 16px;
+  background: #0f172a;
+  border-right: 1px solid #0f172a;
+  padding: 20px 14px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 16px;
   position: sticky;
   top: 61px;
   height: calc(100vh - 61px);
@@ -107,48 +107,23 @@
   }
 }
 
-.ad-sidebar-user-brief {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px;
-  background: #f8fafc;
-  border-radius: 8px;
-  border: 1px solid #f1f5f9;
-}
-
-.ad-sidebar-avatar {
-  width: 40px;
-  height: 40px;
-  background: #2563eb;
-  color: #ffffff;
-  font-weight: bold;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 14px;
-}
-
-.ad-sidebar-name {
-  font-size: 14px;
-  font-weight: 600;
-  color: #0f172a;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 150px;
-}
-
-.ad-sidebar-role {
-  font-size: 12px;
-  color: #64748b;
-}
-
 .ad-sidebar-menu {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 2px;
+}
+
+.ad-sidebar-group {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #64748b;
+  padding: 14px 12px 6px;
+}
+
+.ad-sidebar-item:first-child .ad-sidebar-group {
+  padding-top: 2px;
 }
 
 .ad-sidebar-link {
@@ -156,28 +131,113 @@
   align-items: center;
   gap: 12px;
   width: 100%;
-  padding: 10px 14px;
+  padding: 10px 12px;
   background: transparent;
   border: none;
-  border-radius: 6px;
+  border-radius: 10px;
   font-size: 14px;
   font-weight: 500;
-  color: #475569;
+  color: #94a3b8;
   cursor: pointer;
   text-align: left;
   position: relative;
-  transition: all 0.2s;
+  transition: background 0.15s, color 0.15s;
 }
 
 .ad-sidebar-link:hover {
-  background: #f1f5f9;
-  color: #1e293b;
+  background: #1e293b;
+  color: #e2e8f0;
 }
 
 .ad-sidebar-link.active {
-  background: #eff6ff;
-  color: #2563eb;
+  background: #1e293b;
+  color: #ffffff;
   font-weight: 600;
+}
+
+/* Teal indicator on the active item, in line with the identity tile accent. */
+.ad-sidebar-link.active::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 10px;
+  bottom: 10px;
+  width: 3px;
+  border-radius: 3px;
+  background: #14b8a6;
+}
+
+.ad-link-icon {
+  width: 22px;
+  text-align: center;
+  font-size: 15px;
+  opacity: 0.85;
+}
+
+.ad-sidebar-link.active .ad-link-icon {
+  opacity: 1;
+}
+
+/* Signed-in advocate, pinned to the bottom of the rail. */
+.ad-sidebar-user-brief {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: #1e293b;
+  border-radius: 12px;
+  border: 1px solid #1e293b;
+}
+
+.ad-sidebar-avatar {
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
+  background: #14b8a6;
+  color: #0f172a;
+  font-weight: 800;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+}
+
+.ad-sidebar-user-text {
+  min-width: 0;
+}
+
+.ad-sidebar-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ad-sidebar-role {
+  font-size: 12px;
+  color: #94a3b8;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ad-sidebar-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #64748b;
+  flex-shrink: 0;
+}
+
+.ad-sidebar-dot.on {
+  background: #22c55e;
 }
 
 .ad-badge-count {
@@ -588,4 +648,126 @@
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(4px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Dashboard bento view ──────────────────────────────────── */
+.ad-bento {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  grid-auto-rows: minmax(110px, auto);
+  gap: 14px;
+}
+
+.ad-tile {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.ad-tile-click { cursor: pointer; transition: border-color .15s, box-shadow .15s; }
+.ad-tile-click:hover { border-color: #94a3b8; box-shadow: 0 6px 18px rgba(15, 23, 42, 0.08); }
+
+.ad-tile-wide  { grid-column: span 4; }
+.ad-tile-span2 { grid-column: span 2; }
+.ad-tile-tall  { grid-row: span 2; }
+
+.ad-tile-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.ad-tile-value {
+  margin-top: auto;
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #0f172a;
+  line-height: 1.1;
+  word-break: break-word;
+}
+.ad-tile-value small { font-size: 12px; font-weight: 600; color: #64748b; letter-spacing: 0; }
+.ad-tile-value.warn { color: #b45309; }
+
+.ad-tile-meta { font-size: 12px; font-weight: 600; color: #64748b; }
+.ad-tile-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.ad-tile-link {
+  background: none; border: none; cursor: pointer;
+  font-size: 12px; font-weight: 600; color: #0d9488; padding: 0;
+}
+.ad-tile-link:hover { text-decoration: underline; }
+
+/* Identity tile (dark) */
+.ad-tile-id {
+  grid-column: span 3;
+  grid-row: span 2;
+  background: #0f172a;
+  border-color: #0f172a;
+  color: #ffffff;
+  background-image: radial-gradient(70% 90% at 100% 0%, rgba(20, 184, 166, 0.45), transparent);
+}
+.ad-tile-id-top { display: flex; justify-content: space-between; align-items: flex-start; }
+.ad-tile-avatar { width: 56px; height: 56px; border-radius: 16px; border: none; color: #0f172a; font-size: 22px; }
+.ad-tile-rating { background: rgba(255, 255, 255, 0.12); color: #fde68a; }
+.ad-tile-name { font-size: 24px; font-weight: 800; margin-top: 14px; color: #ffffff; }
+.ad-tile-sub { color: #94a3b8; font-size: 14px; margin-top: 2px; }
+.ad-tile-bio { color: #cbd5e1; font-size: 13px; line-height: 1.5; margin-top: 10px; }
+.ad-tile-id-bottom { margin-top: auto; padding-top: 14px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.ad-tile-hint { font-size: 12px; color: #94a3b8; }
+
+.ad-avail-pill {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 7px 12px; border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08); font-weight: 600; font-size: 13px; color: #e2e8f0;
+}
+.ad-avail-pill i { width: 9px; height: 9px; border-radius: 50%; background: #64748b; }
+.ad-avail-pill.on i { background: #22c55e; box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.25); }
+
+/* Lists inside tiles */
+.ad-tile-empty {
+  margin-top: 12px; padding: 14px; border-radius: 12px;
+  background: #f8fafc; color: #64748b; font-size: 13px; line-height: 1.5;
+}
+.ad-tile-list { list-style: none; margin: 10px 0 0; padding: 0; }
+.ad-tile-list li {
+  display: flex; justify-content: space-between; align-items: center; gap: 10px;
+  padding: 10px 0; border-top: 1px solid #f1f5f9;
+}
+.ad-tile-list li:first-child { border-top: 0; }
+.ad-tile-list li > div { min-width: 0; display: flex; flex-direction: column; }
+.ad-tile-list b { font-size: 14px; color: #0f172a; }
+.ad-tile-list span { font-size: 12px; color: #64748b; }
+
+.ad-tile-checks { list-style: none; margin: 10px 0 0; padding: 0; }
+.ad-tile-checks li {
+  display: flex; justify-content: space-between; padding: 8px 0;
+  border-top: 1px solid #f1f5f9; font-size: 13px; color: #334155;
+}
+.ad-tile-checks li:first-child { border-top: 0; }
+.ad-tile-checks b.ok { color: #0d9488; }
+.ad-tile-checks b.todo { color: #b45309; }
+.ad-tile-progress { margin-top: auto; height: 6px; border-radius: 99px; background: #f1f5f9; overflow: hidden; }
+.ad-tile-progress div { height: 100%; border-radius: 99px; background: #0d9488; }
+
+.ad-tile-actions { margin-top: auto; padding-top: 10px; display: flex; gap: 8px; flex-wrap: wrap; }
+
+@media (max-width: 900px) {
+  .ad-bento { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .ad-tile-id { grid-column: span 3; }
+  .ad-tile-wide { grid-column: span 3; }
+  .ad-tile-span2 { grid-column: span 3; }
+}
+
+@media (max-width: 560px) {
+  .ad-bento { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ad-tile-id, .ad-tile-wide, .ad-tile-span2 { grid-column: span 2; }
+  .ad-tile-tall { grid-row: auto; }
+  .ad-tile-value { font-size: 24px; }
 }
